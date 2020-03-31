@@ -1,0 +1,58 @@
+stateID,stateName,confirmed,deaths,recovered,active
+45,South Carolina,424,7,0,0
+22,Louisiana,1784,64,0,0
+51,Virginia,396,9,0,0
+16,Idaho,91,0,0,0
+19,Iowa,146,1,0,0
+21,Kentucky,143,5,0,0
+29,Missouri,311,8,0,0
+40,Oklahoma,164,5,0,0
+08,Colorado,1003,16,0,0
+17,Illinois,1863,19,0,0
+18,Indiana,477,14,0,0
+28,Mississippi,377,3,0,0
+31,Nebraska,71,0,0,0
+38,North Dakota,45,0,0,0
+39,Ohio,704,11,0,0
+42,Pennsylvania,1260,15,0,0
+53,Washington,2540,133,0,0
+55,Wisconsin,621,7,0,0
+50,Vermont,123,5,0,0
+27,Minnesota,286,1,0,0
+12,Florida,1682,23,0,0
+37,North Carolina,590,1,0,0
+06,California,2998,65,0,0
+36,New York,30841,254,0,0
+56,Wyoming,44,0,0,0
+26,Michigan,2289,43,0,0
+02,Alaska,41,0,0,0
+24,Maryland,425,4,0,0
+20,Kansas,134,3,0,0
+47,Tennessee,735,3,0,0
+48,Texas,1229,15,0,0
+23,Maine,140,0,0,0
+04,Arizona,401,4,0,0
+13,Georgia,1101,16,0,0
+05,Arkansas,260,1,0,0
+34,New Jersey,3472,18,0,0
+46,South Dakota,41,1,0,0
+01,Alabama,381,1,0,0
+41,Oregon,266,10,0,0
+54,West Virginia,39,0,0,0
+25,Massachusetts,1676,6,0,0
+49,Utah,326,1,0,0
+30,Montana,65,0,0,0
+33,New Hampshire,108,1,0,0
+35,New Mexico,113,1,0,0
+44,Rhode Island,101,0,0,0
+32,Nevada,308,6,0,0
+11,District of Columbia,187,2,0,0
+09,Connecticut,875,19,0,0
+15,Hawaii,70,0,0,0
+10,Delaware,119,0,0,0
+60,American Samoa,0,0,0,0
+88,Diamond Princess,49,0,0,0
+99,Grand Princess,28,1,0,0
+66,Guam,37,1,0,0
+69,Northern Mariana Islands,0,0,0,0
+78,Virgin Islands,17,0,0,0

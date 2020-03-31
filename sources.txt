@@ -1,0 +1,5 @@
+http://bl.ocks.org/ElefHead/ebff082d41ef8b9658059c408096f782
+https://www2.census.gov/geo/docs/reference/codes/files/national_county.txt
+https://www2.census.gov/geo/docs/reference/state.txt
+https://github.com/CSSEGISandData/COVID-19
+https://www2.census.gov/programs-surveys/popest/datasets/2010-2019/counties/totals/
