@@ -44,17 +44,47 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script type="text/javascript">
 
-        class state {
-            constructor() {
-
-            }
-        }
-
-        class county {
-            constructor() {
-
-            }
-        }
+        // class state {
+        //     /*
+        //     Variables
+        //         stateID
+        //         stateName
+        //         population
+        //         confirmed
+        //         deaths
+        //         recovered
+        //         counties
+        //      */
+        //     constructor() {
+        //
+        //     }
+        // }
+        //
+        // class county {
+        //     /*
+        //     Variables
+        //         countyID
+        //         stateID
+        //         countyName
+        //         population
+        //         confirmed
+        //         deaths
+        //         recovered
+        //      */
+        //     constructor() {
+        //     }
+        // }
+        //
+        // class covidCases {
+        //     /*
+        //     Variables
+        //         confirmed
+        //         deaths
+        //         recovered
+        //      */
+        //     constructor() {
+        //     }
+        // }
 
         // Variables for global use
         var currentState = 0;
@@ -189,7 +219,7 @@
                 translate = [width / 2 - scale * x, height / 2 - scale * y];
 
             g.transition()
-                .duration(500)
+                .duration(1000)
                 .style("stroke-width", 1.5 / scale + "px")
                 .attr("transform", "translate(" + translate + ")scale(" + scale + ")");
         }
@@ -204,7 +234,7 @@
 
             g.transition()
                 .delay(100)
-                .duration(500)
+                .duration(1000)
                 .style("stroke-width", "1.5px")
                 .attr('transform', 'translate('+margin.left+','+margin.top+')');
 
