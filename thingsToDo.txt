@@ -1,2 +1,0 @@
-2. Add population percentage as a color for state and county (already have data)
-3. Update coronavirus data (find a way to do it daily possibly too)
