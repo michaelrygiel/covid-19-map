@@ -24,3 +24,8 @@
 .county-boundary:hover, .state:hover {
     fill: darkred !important;
 }
+
+input[type="radio"][disabled] + label{
+    color: gray;
+    text-decoration: line-through;
+}

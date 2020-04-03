@@ -27,54 +27,70 @@ class State {
         return this.population;
     }
 
-    getConfirmedCases() {
+    getConfirmed() {
         return this.getCoronavirusCases().getConfirmed();
     }
 
-    getCountyConfirmedCases(stateID, populationRadioValue) {
+    getDeaths() {
+        return this.getCoronavirusCases().getDeaths();
+    }
+
+    getCountyConfirmed(stateID, populationRadioValue) {
         if (populationRadioValue === PopulationRadioButton.ACTUAL) {
-            return this.getCountyActualConfirmedCases(stateID);
+            return this.getCountyActualConfirmed(stateID);
         } else if ((populationRadioValue === PopulationRadioButton.PERCENTAGE)) {
-            return this.getCountyPercentageConfirmedCases(stateID);
+            return this.getCountyPercentageConfirmed(stateID);
         }
     }
 
-    getCountyActualConfirmedCases(countyID) {
-        return this.getCounty(countyID).getConfirmedCases();
+    getCountyActualConfirmed(countyID) {
+        return this.getCounty(countyID).getConfirmed();
     }
 
-    getCountyPercentageConfirmedCases(countyID) {
-        return this.getCounty(countyID).getPercentageConfirmedCases();
+    getCountyPercentageConfirmed(countyID) {
+        return this.getCounty(countyID).getPercentageConfirmed();
     }
 
-    getPercentageConfirmedCases() {
-        return this.getConfirmedCases() / this.getPopulation()  * 100;
+    getPercentageCoronavirus(coronavirusRadioValue) {
+        if (coronavirusRadioValue === CoronavirusCasesRadioButton.CONFIRMED) {
+            return this.getPercentageConfirmed();
+        } else if (coronavirusRadioValue === CoronavirusCasesRadioButton.DEATHS) {
+            return this.getPercentageDeaths();
+        }
+    }
+
+    getPercentageDeaths() {
+        return this.getDeaths() / this.getPopulation() * 100;
+    }
+
+    getPercentageConfirmed() {
+        return this.getConfirmed() / this.getPopulation() * 100;
     }
 
     getCountyColorScale(populationRadioValue) {
-        let maxConfirmedCases = this.getMaxConfirmedCasesAmongCounties(populationRadioValue);
-        return d3.scaleSqrt().domain([0, maxConfirmedCases]).range(['beige', 'red']);
+        let maxConfirmed = this.getMaxConfirmedAmongCounties(populationRadioValue);
+        return d3.scaleSqrt().domain([0, maxConfirmed]).range(['beige', 'red']);
     }
 
-    getMaxConfirmedCasesAmongCounties(populationRadioValue) {
+    getMaxConfirmedAmongCounties(populationRadioValue) {
         if (populationRadioValue === PopulationRadioButton.ACTUAL) {
-            return this.getMaxActualConfirmedCasesAmongCounties();
+            return this.getMaxActualConfirmedAmongCounties();
         } else if ((populationRadioValue === PopulationRadioButton.PERCENTAGE)) {
-            return this.getMaxPercentageConfirmedCasesAmongCounties();
+            return this.getMaxPercentageConfirmedAmongCounties();
         }
     }
 
-    getMaxActualConfirmedCasesAmongCounties() {
+    getMaxActualConfirmedAmongCounties() {
         return d3.max(
             this.getCountyIDs(),
-            countyID => {return this.getCountyActualConfirmedCases(countyID)}
+            countyID => {return this.getCountyActualConfirmed(countyID)}
         );
     }
 
-    getMaxPercentageConfirmedCasesAmongCounties() {
+    getMaxPercentageConfirmedAmongCounties() {
         return d3.max(
             this.getCountyIDs(),
-            countyID => {return (this.getCountyPercentageConfirmedCases(countyID))}
+            countyID => {return (this.getCountyPercentageConfirmed(countyID))}
         );
     }
 
@@ -83,7 +99,7 @@ class State {
         let ids = this.getCountyIDs();
         ids.forEach(id => {
             let path = $("path#"+ this.getCounty(id).getFullID() +".county-boundary");
-            path.attr('fill', colorScale(this.getCountyConfirmedCases(id, populationRadioValue)));
+            path.attr('fill', colorScale(this.getCountyConfirmed(id, populationRadioValue)));
         })
     }
 }

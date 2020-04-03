@@ -3,7 +3,8 @@
 var currentStateID = 0;
 var stateView = true;
 var country;
-var showActualData = true;
+var currentPopulationRadio = PopulationRadioButton.ACTUAL;
+var currentCoronavirusRadio = CoronavirusCasesRadioButton.CONFIRMED;
 
 var margin = {
     top: 10,

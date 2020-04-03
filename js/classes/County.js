@@ -23,11 +23,11 @@ class County {
         return this.stateID + this.countyID;
     }
 
-    getConfirmedCases() {
+    getConfirmed() {
         return this.getCoronavirusCases().getConfirmed();
     }
 
-    getPercentageConfirmedCases() {
-        return this.getConfirmedCases() / this.getPopulation() * 100;
+    getPercentageConfirmed() {
+        return this.getConfirmed() / this.getPopulation() * 100;
     }
 }

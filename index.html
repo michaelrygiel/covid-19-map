@@ -7,11 +7,11 @@
 </head>
 <body>
     <h1>United States COVID-19 Outbreak Visualization</h1>
-    <h6>Updated values as of March 26th, 2019</h6>
+    <h4>Updated values as of April 2nd, 2020</h4>
     <div class="us-map-visualization"></div>
     <div class="toggle-data">
         <div>
-            <label>Actual Numbers or Percentage Based on Population</label>
+            <label>Which Population Data to Color By:</label>
             <form>
                 <input type="radio" id="actual-radio" name="population-radio" onclick="changePopulationData(this);" value="actual-radio" checked>
                 <label for="actual-radio">Actual</label><br>
@@ -19,8 +19,20 @@
                 <label for="percentage-radio">Percentage</label><br>
             </form>
         </div>
+        <br>
+        <div>
+            <label>Which Coronavirus Data to Color By:</label>
+            <form>
+                <input type="radio" id="confirmed-radio" name="coronavirus-radio" onclick="changeCoronavirusData(this);" value="confirmed-radio" checked>
+                <label for="confirmed-radio">Confirmed</label><br>
+                <input type="radio" id="deaths-radio" name="coronavirus-radio" onclick="changeCoronavirusData(this);" value="deaths-radio">
+                <label for="deaths-radio">Deaths</label><br>
+                <input type="radio" id="recovered-radio" name="coronavirus-radio" onclick="changeCoronavirusData(this);" value="recovered-radio" disabled>
+                <label for="recovered-radio">Recovered</label><br>
+            </form>
+        </div>
+        <br>
     </div>
-    <br>
     <div class="hoverData">
         <div>
             <label>In View:</label>

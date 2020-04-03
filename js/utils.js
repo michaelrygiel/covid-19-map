@@ -6,17 +6,6 @@ function hoverReset() {
     }
 }
 
-function hoverShowUS() {
-    changeHoverData(
-        country.getName(),
-        country.getCoronavirusCases().getConfirmed(),
-        country.getCoronavirusCases().getDeaths(),
-        country.getCoronavirusCases().getRecovered(),
-        country.getPopulation(),
-        country.getPercentageConfirmedCases()
-    );
-}
-
 function hoverStates(stateID) {
     if (stateView) {
         changeStateData(stateID);
@@ -31,6 +20,17 @@ function hoverCounties(fullID) {
     }
 }
 
+function hoverShowUS() {
+    changeHoverData(
+        country.getName(),
+        country.getCoronavirusCases().getConfirmed(),
+        country.getCoronavirusCases().getDeaths(),
+        country.getCoronavirusCases().getRecovered(),
+        country.getPopulation(),
+        country.getPercentageCoronavirus(CoronavirusCasesRadioButton.getValue())
+    );
+}
+
 function changeStateData(stateID){
     let state = country.getState(stateID);
     if (state) {
@@ -40,7 +40,7 @@ function changeStateData(stateID){
             state.getCoronavirusCases().getDeaths(),
             state.getCoronavirusCases().getRecovered(),
             state.getPopulation(),
-            state.getPercentageConfirmedCases()
+            state.getPercentageCoronavirus(CoronavirusCasesRadioButton.getValue())
         );
     }
 }
@@ -54,41 +54,44 @@ function changeCountyData(fullID) {
             county.getCoronavirusCases().getDeaths(),
             county.getCoronavirusCases().getRecovered(),
             county.getPopulation(),
-            county.getPercentageConfirmedCases()
+            county.getPercentageConfirmed()
         );
     }
 }
 
 function changeHoverData(name, confirmed, deaths, recovered, population, percentage) {
+    console.log(name, confirmed, deaths, recovered, population, percentage);
     $("#hover-name").text(name);
     $("#hover-confirmed").text(confirmed.toLocaleString());
     $("#hover-deaths").text(deaths.toLocaleString());
     $("#hover-recovered").text(recovered.toLocaleString());
     $("#hover-population").text(parseInt(population).toLocaleString());
-    if (showActualData) {
+    if (PopulationRadioButton.getValue() === PopulationRadioButton.ACTUAL) {
         $("#hover-percentage").parent().hide();
     } else {
-        $("#hover-percentage").text(percentage.toFixed(5) + '%');
-        $("#hover-percentage").parent().show();
+        let percentageLabel = $("#hover-percentage");
+        percentageLabel.text(percentage.toFixed(5) + '%');
+        percentageLabel.parent().show();
     }
 }
 
-function changePopulationData(radio) {
-    if ((showActualData && radio.value === PopulationRadioButton.PERCENTAGE)
-        || (!showActualData && radio.value === PopulationRadioButton.ACTUAL)) {
+function changePopulationData() {
+    changeColors();
+    hoverReset();
+}
 
-            showActualData = radio.value !== PopulationRadioButton.PERCENTAGE;
-            changeColors();
-            hoverReset();
-    }
+function changeCoronavirusData() {
+    changeColors();
+    hoverReset();
 }
 
 function changeColors() {
     let populationRadioValue = PopulationRadioButton.getValue();
+    let coronavirusRadioValue = CoronavirusCasesRadioButton.getValue();
     if (stateView) {
-        country.updateStateColors(populationRadioValue);
+        country.updateStateColors(populationRadioValue, coronavirusRadioValue);
     }
     else {
-        country.updateCountyColors(currentStateID, populationRadioValue);
+        country.updateCountyColors(currentStateID, populationRadioValue, coronavirusRadioValue);
     }
 }

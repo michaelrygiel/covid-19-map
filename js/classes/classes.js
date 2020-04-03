@@ -7,15 +7,15 @@ const PopulationRadioButton = {
     }
 };
 
-// const CoronavirusCasesRadioButton = {
-//     CONFIRMED: "confirmed",
-//     DEATHS: "deaths",
-//     RECOVERED: "recovered",
-//
-//     getCoronavirusCasesRadioValue() {
-//         return -1;
-//     }
-// };
+const CoronavirusCasesRadioButton = {
+    CONFIRMED: "confirmed-radio",
+    DEATHS: "deaths-radio",
+    RECOVERED: "recovered-radio",
+
+    getValue: function () {
+        return $("input[name='coronavirus-radio']:checked").val();
+    }
+};
 
 class CoronavirusCases {
     constructor(confirmed, deaths, recovered) {
