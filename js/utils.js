@@ -61,17 +61,16 @@ function changePopulationData(radio) {
         || (!showActualData && radio.value === PopulationRadioButton.ACTUAL)) {
 
             showActualData = radio.value !== PopulationRadioButton.PERCENTAGE;
-            changeColors(radio.value);
+            changeColors();
     }
 }
 
-function changeColors(populationRadioValue) {
+function changeColors() {
+    let populationRadioValue = PopulationRadioButton.getValue();
     if (stateView) {
         country.updateStateColors(populationRadioValue);
-        // Change state colors dependent on radio button value
     }
     else {
-        // country.updateCountyColors();
-        // Change county colors dependent on radio button value
+        country.updateCountyColors(currentStateID, populationRadioValue);
     }
 }

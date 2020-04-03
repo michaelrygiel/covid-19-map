@@ -95,8 +95,8 @@ function ready(promiseData) {
 }
 
 function initialize() {
-    country.updateStateColors(PopulationRadioButton.getValue());
     hoverShowUS();
+    changeColors();
 }
 
 function clicked(d) {
@@ -111,7 +111,7 @@ function clicked(d) {
     // Else, zoom in to state
     stateView = false;
     currentStateID = d.id;
-    country.updateCountyColors(currentStateID);
+    changeColors();
 
     active.classed("active", false);
     active = d3.select(this).classed("active", true);
