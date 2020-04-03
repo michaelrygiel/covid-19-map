@@ -1,3 +1,5 @@
+const COUNTRY_NAME = "United States";
+
 const CoronavirusCSVColumns = {
     FIPS: "FIPS",
     CONFIRMED: "Confirmed",
@@ -5,9 +7,26 @@ const CoronavirusCSVColumns = {
     RECOVERED: "Recovered"
 };
 
+const StateCSVColumns = {
+    STATE_ID: "STATE",
+    STATE_NAME: "STATE_NAME"
+};
+
+const CountyCSVColumns = {
+    COUNTY_ID: "countyID",
+    STATE_ID: "stateID",
+    COUNTY_NAME: "countyName"
+};
+
+const CountyPopulationCSVColumns = {
+    COUNTY_ID: "COUNTY",
+    STATE_ID: "STATE",
+    POPULATION: "POPESTIMATE2019"
+}
+
 function generateCountry(promiseData) {
     let states = generateStatesForCountry(promiseData);
-    return new Country("United States", states, generateStateOrCountryCoronavirusCases(states));
+    return new Country(COUNTRY_NAME, states, generateStateOrCountryCoronavirusCases(states));
 }
 
 function generateStatesForCountry(promiseData) {
@@ -18,10 +37,15 @@ function generateStatesForCountry(promiseData) {
         countiesCSV = promiseData[4];
 
     statesCSV.forEach(state => {
-        let counties = generateCountiesForState(state["STATE"], countiesCSV, coronavirusCSV, usPopulationCSV);
-        states[state["STATE"]] = new State(
-            state["STATE"],
-            state["STATE_NAME"],
+        let counties = generateCountiesForState(
+            state[StateCSVColumns.STATE_ID],
+            countiesCSV,
+            coronavirusCSV,
+            usPopulationCSV
+        );
+        states[state[StateCSVColumns.STATE_ID]] = new State(
+            state[StateCSVColumns.STATE_ID],
+            state[StateCSVColumns.STATE_NAME],
             counties,
             generateStateOrCountryCoronavirusCases(counties)
         );
@@ -32,21 +56,33 @@ function generateStatesForCountry(promiseData) {
 function generateCountiesForState(stateID, countiesCSV, coronavirusCSV, usPopulationCSV) {
     // ADD usPopulationCSV TO THIS //
     let counties = {};
-    let countiesList = countiesCSV.filter(county => county["stateID"] === stateID);
+    let countiesList = countiesCSV.filter(county => county[CountyCSVColumns.STATE_ID] === stateID);
     countiesList.forEach(county => {
-        let countyCoronavirusCases = generateCountyCoronavirusCases(county["countyID"], stateID, coronavirusCSV);
-        counties[county["countyID"]] = new County(county["countyID"], county["countyName"], stateID, countyCoronavirusCases)
+        let countyCoronavirusCases = generateCountyCoronavirusCases(
+            county[CountyCSVColumns.COUNTY_ID],
+            stateID,
+            coronavirusCSV
+        );
+        counties[county[CountyCSVColumns.COUNTY_ID]] = new County(
+            county[CountyCSVColumns.COUNTY_ID],
+            county[CountyCSVColumns.COUNTY_NAME],
+            stateID,
+            countyCoronavirusCases
+        );
     });
     return counties;
 }
 
 function generateCountyCoronavirusCases(countyID, stateID, coronavirusCSV) {
-    let coronavirusCounty = coronavirusCSV.find(coronavirusCounty => coronavirusCounty["FIPS"] === (stateID + countyID));
+    let coronavirusCounty = coronavirusCSV.find(
+        coronavirusCounty =>
+            coronavirusCounty[CoronavirusCSVColumns.FIPS] === (stateID + countyID)
+    );
     return coronavirusCounty
         ? new CoronavirusCases(
-            parseInt(coronavirusCounty["Confirmed"]),
-            parseInt(coronavirusCounty["Deaths"]),
-            parseInt(coronavirusCounty["Recovered"]))
+            parseInt(coronavirusCounty[CoronavirusCSVColumns.CONFIRMED]),
+            parseInt(coronavirusCounty[CoronavirusCSVColumns.DEATHS]),
+            parseInt(coronavirusCounty[CoronavirusCSVColumns.RECOVERED]))
         : new CoronavirusCases();
 }
 
