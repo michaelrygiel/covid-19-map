@@ -1,0 +1,2 @@
+From coronavirus data:
+	The data for Matanuska-Susitna,Alaska,US consistently comes back without a fips value. The fips value should be 02170.

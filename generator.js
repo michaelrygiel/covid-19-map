@@ -1,6 +1,13 @@
+const CoronavirusCSVColumns = {
+    FIPS: "FIPS",
+    CONFIRMED: "Confirmed",
+    DEATHS: "Deaths",
+    RECOVERED: "Recovered"
+};
+
 function generateCountry(promiseData) {
-    states = generateStatesForCountry(promiseData);
-    return new Country("United States", states, generateCountryCoronavirusCases(states));
+    let states = generateStatesForCountry(promiseData);
+    return new Country("United States", states, generateStateOrCountryCoronavirusCases(states));
 }
 
 function generateStatesForCountry(promiseData) {
@@ -11,9 +18,13 @@ function generateStatesForCountry(promiseData) {
         countiesCSV = promiseData[4];
 
     statesCSV.forEach(state => {
-        let counties = generateCountiesForState(state["stateID"], countiesCSV, coronavirusCSV, usPopulationCSV);
-        let coronavirusCases = generateStateCoronavirusCases(counties);
-        states[state["stateID"]] = new State(state["stateID"], state["stateName"], counties, coronavirusCases);
+        let counties = generateCountiesForState(state["STATE"], countiesCSV, coronavirusCSV, usPopulationCSV);
+        states[state["STATE"]] = new State(
+            state["STATE"],
+            state["STATE_NAME"],
+            counties,
+            generateStateOrCountryCoronavirusCases(counties)
+        );
     });
     return states;
 }
@@ -29,31 +40,31 @@ function generateCountiesForState(stateID, countiesCSV, coronavirusCSV) {
 }
 
 function generateCountyCoronavirusCases(countyID, stateID, coronavirusCSV) {
-    let coronavirusCounty = coronavirusCSV.find(coronavirusCounty => coronavirusCounty["fips"] === (stateID + countyID));
+    let coronavirusCounty = coronavirusCSV.find(coronavirusCounty => coronavirusCounty["FIPS"] === (stateID + countyID));
     return coronavirusCounty
         ? new CoronavirusCases(
-            parseInt(coronavirusCounty.confirmed),
-            parseInt(coronavirusCounty.deaths),
-            parseInt(coronavirusCounty.recovered))
+            parseInt(coronavirusCounty["Confirmed"]),
+            parseInt(coronavirusCounty["Deaths"]),
+            parseInt(coronavirusCounty["Recovered"]))
         : new CoronavirusCases();
 }
 
-function generateStateCoronavirusCases(counties) {
-    let stateConfirmed = 0, stateDeaths = 0, stateRecovered = 0;
-    Object.keys(counties).forEach(function (key) {
-        stateConfirmed += counties[key].getCoronavirusCases().getConfirmed();
-        stateDeaths += counties[key].getCoronavirusCases().getDeaths();
-        stateRecovered += counties[key].getCoronavirusCases().getRecovered();
+function generateStateOrCountryCoronavirusCases(regions) {
+    let confirmed = 0, deaths = 0, recovered = 0;
+    Object.keys(regions).forEach(function (key) {
+        confirmed += regions[key].getCoronavirusCases().getConfirmed();
+        deaths += regions[key].getCoronavirusCases().getDeaths();
+        recovered += regions[key].getCoronavirusCases().getRecovered();
     });
-    return new CoronavirusCases(stateConfirmed, stateDeaths, stateRecovered);
+    return new CoronavirusCases(confirmed, deaths, recovered);
 }
 
-function generateCountryCoronavirusCases(states) {
-    let countryConfirmed = 0, countryDeaths = 0, countryRecovered = 0;
-    Object.keys(states).forEach(function (key) {
-        countryConfirmed += states[key].getCoronavirusCases().getConfirmed();
-        countryDeaths += states[key].getCoronavirusCases().getDeaths();
-        countryRecovered += states[key].getCoronavirusCases().getRecovered();
-    });
-    return new CoronavirusCases(countryConfirmed, countryDeaths, countryRecovered);
-}
+// function generateCountryCoronavirusCases(states) {
+//     let countryConfirmed = 0, countryDeaths = 0, countryRecovered = 0;
+//     Object.keys(states).forEach(function (key) {
+//         countryConfirmed += states[key].getCoronavirusCases().getConfirmed();
+//         countryDeaths += states[key].getCoronavirusCases().getDeaths();
+//         countryRecovered += states[key].getCoronavirusCases().getRecovered();
+//     });
+//     return new CoronavirusCases(countryConfirmed, countryDeaths, countryRecovered);
+// }

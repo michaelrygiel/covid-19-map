@@ -79,7 +79,7 @@
         const usMapDataPromise = Promise.resolve(d3.json('us-counties.topojson'));
         const usPopulationDataPromise = Promise.resolve(d3.csv('co-est2019-alldata.csv'));
         const coronavirusDataPromise = Promise.resolve(d3.csv('coronavirusCountyData.csv'));
-        const statesDataPromise = Promise.resolve(d3.csv('states.csv'));
+        const statesDataPromise = Promise.resolve(d3.dsv('|', 'states.txt'));
         const countiesDataPromise = Promise.resolve(d3.csv('counties.csv'));
         Promise.all([
             usMapDataPromise,
@@ -229,13 +229,14 @@
         }
 
         function hoverCounties(fullID) {
+            console.log(fullID);
             if (!stateView) {
                 changeCountyData(fullID);
             }
         }
 
         function changeStateData(stateID){
-            let state = states[stateID];
+            let state = country.getState(stateID);
             if (state) {
                 changeHoverData(
                     state.getName(),
