@@ -3,3 +3,4 @@ https://www2.census.gov/geo/docs/reference/codes/files/national_county.txt
 https://www2.census.gov/geo/docs/reference/state.txt
 https://github.com/CSSEGISandData/COVID-19
 https://www2.census.gov/programs-surveys/popest/datasets/2010-2019/counties/totals/
+https://cdn.jsdelivr.net/npm/us-atlas@3/counties-10m.json

@@ -124,7 +124,7 @@
                 .on('mouseenter', function(d) {
                             return hoverCounties(d.id);
                         })
-                .on('mouseleave', hoverStates(currentState));
+                .on('mouseleave', hoverStates);
 
             g.append("g")
                 .attr("id", "states")
@@ -268,11 +268,12 @@
         function updateStateColor(stateID) {
             let maxStateConfirmedCases = country.getMaxConfirmedCasesAmongStates();
             let stateColorScale = d3.scaleSqrt().domain([0, maxStateConfirmedCases]).range(['beige', 'red']);
+            console.log(stateID);
             return stateColorScale(country.getStateConfirmedCases(stateID));
         }
 
         function updateCountyColor(fullID) {
-            countyColorScale = countyColorScales[convertFullIDToStateAndCountyID(fullID)[0]];
+            countyColorScale = countyColorScales[fullID.substring(0,2)];
             if (countyColorScale) {
                 if (country.getCounty(fullID)) {
                     return countyColorScale(country.getCounty(fullID).getCoronavirusCases().getConfirmed());
@@ -283,27 +284,11 @@
         function generateCountyColorScales() {
             // Run through states and generate color scale for counties
             countyColorScales = {};
-            for (stateID in country.getStates()) {
+            for (let stateID in country.getStates()) {
                 let maxCountyConfirmedCases = country.getState(stateID).getCountyWithMaxConfirmedCases();
                 countyColorScales[stateID] = d3.scaleSqrt().domain([0, maxCountyConfirmedCases]).range(['beige', 'red']);
             }
             return countyColorScales;
-        }
-
-        function convertFullIDToStateAndCountyID(fullID) {
-            let id = fullID.toString();
-            let stateID = -1;
-            let countyID = -1;
-
-            if (id.length === 5) {
-                stateID = parseInt(id.substring(0, 2));
-                countyID = parseInt(id.substring(2, 5));
-            }
-            else {
-                stateID = parseInt(id.substring(0, 1));
-                countyID = parseInt(id.substring(1, 4));
-            }
-            return [stateID, countyID];
         }
     </script>
 </body>

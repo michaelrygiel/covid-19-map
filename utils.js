@@ -18,8 +18,7 @@ class Country {
     }
 
     getCounty(fullID) {
-        let ids = this.convertFullIDToStateAndCountyID(fullID);
-        return this.getState(ids[0]).getCounty(ids[1]);
+        return this.getState(fullID.substring(0,2)).getCounty(fullID.substring(2,5));
     }
 
     getCoronavirusCases() {
@@ -28,22 +27,6 @@ class Country {
 
     getStateConfirmedCases(stateID) {
         return this.getState(stateID).getCoronavirusCases().getConfirmed();
-    }
-
-    convertFullIDToStateAndCountyID(fullID) {
-        let id = fullID.toString();
-        let stateID = -1;
-        let countyID = -1;
-
-        if (id.length === 5) {
-            stateID = parseInt(id.substring(0, 2));
-            countyID = parseInt(id.substring(2, 5));
-        }
-        else {
-            stateID = parseInt(id.substring(0, 1));
-            countyID = parseInt(id.substring(1, 4));
-        }
-        return [stateID, countyID];
     }
 
     getMaxConfirmedCasesAmongStates() {
@@ -64,7 +47,7 @@ class State {
         CoronavirusCases
      */
     constructor(stateID, name, counties, coronavirusCases) {
-        this.stateID = parseInt(stateID);
+        this.stateID = stateID;
         this.counties = counties;
         this.name = name;
         this.coronavirusCases = coronavirusCases;
@@ -104,9 +87,9 @@ class County {
         CoronavirusCases
      */
     constructor(countyID, name, stateID, coronavirusCases) {
-        this.countyID = parseInt(countyID);
+        this.countyID = countyID;
         this.name = name;
-        this.stateID = parseInt(stateID);
+        this.stateID = stateID;
         this.coronavirusCases = coronavirusCases;
     }
 

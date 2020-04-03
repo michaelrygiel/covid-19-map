@@ -13,7 +13,7 @@ function generateStatesForCountry(promiseData) {
     statesCSV.forEach(state => {
         let counties = generateCountiesForState(state["stateID"], countiesCSV, coronavirusCSV, usPopulationCSV);
         let coronavirusCases = generateStateCoronavirusCases(counties);
-        states[parseInt(state["stateID"])] = new State(state["stateID"], state["stateName"], counties, coronavirusCases);
+        states[state["stateID"]] = new State(state["stateID"], state["stateName"], counties, coronavirusCases);
     });
     return states;
 }
@@ -23,7 +23,7 @@ function generateCountiesForState(stateID, countiesCSV, coronavirusCSV) {
     let countiesList = countiesCSV.filter(county => county["stateID"] === stateID);
     countiesList.forEach(county => {
         let countyCoronavirusCases = generateCountyCoronavirusCases(county["countyID"], stateID, coronavirusCSV);
-        counties[parseInt(county["countyID"])] = new County(county["countyID"], county["countyName"], stateID, countyCoronavirusCases)
+        counties[county["countyID"]] = new County(county["countyID"], county["countyName"], stateID, countyCoronavirusCases)
     });
     return counties;
 }
