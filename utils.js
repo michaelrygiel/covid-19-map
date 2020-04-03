@@ -1,4 +1,10 @@
 class Country {
+    constructor(name, states, coronavirusCases) {
+        this.name = name;
+        this.states = states;
+        this.coronavirusCases = coronavirusCases;
+    }
+
     getName() {
         return this.name;
     }
@@ -22,12 +28,6 @@ class Country {
 
     getStateConfirmedCases(stateID) {
         return this.getState(stateID).getCoronavirusCases().getConfirmed();
-    }
-
-    constructor(name, states, coronavirusCases) {
-        this.name = name;
-        this.states = states;
-        this.coronavirusCases = coronavirusCases;
     }
 
     convertFullIDToStateAndCountyID(fullID) {
@@ -55,21 +55,6 @@ class Country {
 }
 
 class State {
-    getCounty(countyID) {
-        return this.counties[countyID];
-    }
-
-    getCounties() {
-        return this.counties;
-    }
-
-    getName() {
-        return this.name;
-    }
-
-    getCoronavirusCases() {
-        return this.coronavirusCases;
-    }
     /*
     Variables
         stateID
@@ -85,6 +70,22 @@ class State {
         this.coronavirusCases = coronavirusCases;
     }
 
+    getCounty(countyID) {
+        return this.counties[countyID];
+    }
+
+    getCounties() {
+        return this.counties;
+    }
+
+    getName() {
+        return this.name;
+    }
+
+    getCoronavirusCases() {
+        return this.coronavirusCases;
+    }
+
     getCountyWithMaxConfirmedCases() {
         return d3.max(
             Object.keys(this.getCounties()),
@@ -94,13 +95,6 @@ class State {
 }
 
 class County {
-    getName() {
-        return this.name;
-    }
-
-    getCoronavirusCases() {
-        return this.coronavirusCases;
-    }
     /*
     Variables
         countyID
@@ -115,9 +109,23 @@ class County {
         this.stateID = parseInt(stateID);
         this.coronavirusCases = coronavirusCases;
     }
+
+    getName() {
+        return this.name;
+    }
+
+    getCoronavirusCases() {
+        return this.coronavirusCases;
+    }
 }
 
 class CoronavirusCases {
+    constructor(confirmed, deaths, recovered) {
+        this.confirmed = isNaN(confirmed) ? 0: confirmed;
+        this.deaths = isNaN(deaths) ? 0 : deaths;
+        this.recovered = isNaN(recovered) ? 0 : recovered;
+    }
+
     getConfirmed() {
         return this.confirmed;
     }
@@ -128,10 +136,5 @@ class CoronavirusCases {
 
     getRecovered() {
         return this.recovered;
-    }
-    constructor(confirmed, deaths, recovered) {
-        this.confirmed = isNaN(confirmed) ? 0: confirmed;
-        this.deaths = isNaN(deaths) ? 0 : deaths;
-        this.recovered = isNaN(recovered) ? 0 : recovered;
     }
 }
