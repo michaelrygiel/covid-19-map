@@ -107,7 +107,6 @@
 
             country = generateCountry(promiseData);
             countyColorScales = generateCountyColorScales();
-            console.log(country);
 
             g.append("g")
                 .attr("id", "counties")
@@ -229,7 +228,6 @@
         }
 
         function hoverCounties(fullID) {
-            console.log(fullID);
             if (!stateView) {
                 changeCountyData(fullID);
             }
@@ -269,7 +267,6 @@
         function updateStateColor(stateID) {
             let maxStateConfirmedCases = country.getMaxConfirmedCasesAmongStates();
             let stateColorScale = d3.scaleSqrt().domain([0, maxStateConfirmedCases]).range(['beige', 'red']);
-            console.log(stateID);
             return stateColorScale(country.getStateConfirmedCases(stateID));
         }
 

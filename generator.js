@@ -29,7 +29,8 @@ function generateStatesForCountry(promiseData) {
     return states;
 }
 
-function generateCountiesForState(stateID, countiesCSV, coronavirusCSV) {
+function generateCountiesForState(stateID, countiesCSV, coronavirusCSV, usPopulationCSV) {
+    // ADD usPopulationCSV TO THIS //
     let counties = {};
     let countiesList = countiesCSV.filter(county => county["stateID"] === stateID);
     countiesList.forEach(county => {
