@@ -13,34 +13,38 @@
         <div>
             <label>Actual Numbers or Percentage Based on Population</label>
             <form>
-                <input type="radio" id="actual" name="population-radio" onclick="changePopulationData(this);" value="actual" checked>
-                <label for="actual">Actual</label><br>
-                <input type="radio" id="percentage" name="population-radio" onclick="changePopulationData(this);" value="percentage">
-                <label for="percentage">Percentage</label><br>
+                <input type="radio" id="actual-radio" name="population-radio" onclick="changePopulationData(this);" value="actual-radio" checked>
+                <label for="actual-radio">Actual</label><br>
+                <input type="radio" id="percentage-radio" name="population-radio" onclick="changePopulationData(this);" value="percentage-radio">
+                <label for="percentage-radio">Percentage</label><br>
             </form>
         </div>
     </div>
     <br>
     <div class="hoverData">
         <div>
-            <label class="name">In View:</label>
-            <label id="name"></label>
+            <label>In View:</label>
+            <label id="hover-name"></label>
         </div>
         <div>
-            <label class="population">Population:</label>
-            <label id="population"></label>
+            <label>Population:</label>
+            <label id="hover-population"></label>
+        </div>
+        <div style="display: none;">
+            <label>Percentage:</label>
+            <label id="hover-percentage"></label>
         </div>
         <div>
-            <label class="confirmed">Confirmed:</label>
-            <label id="confirmed"></label>
+            <label>Confirmed:</label>
+            <label id="hover-confirmed"></label>
         </div>
         <div>
-            <label class="deaths">Deaths:</label>
-            <label id="deaths"></label>
+            <label>Deaths:</label>
+            <label id="hover-deaths"></label>
         </div>
         <div>
-            <label class="recovered">Recovered:</label>
-            <label id="recovered"></label>
+            <label>Recovered:</label>
+            <label id="hover-recovered"></label>
         </div>
     </div>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.7.0/d3.min.js"></script>
@@ -48,7 +52,10 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="js/utils.js"></script>
     <script src="js/generator.js"></script>
-    <script src="js/classes.js"></script>
+    <script src="js/classes/classes.js"></script>
+    <script src="js/classes/Country.js"></script>
+    <script src="js/classes/State.js"></script>
+    <script src="js/classes/County.js"></script>
     <script src="js/map.js"></script>
 </body>
 </html>
