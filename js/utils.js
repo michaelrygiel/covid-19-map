@@ -60,7 +60,6 @@ function changeCountyData(fullID) {
 }
 
 function changeHoverData(name, confirmed, deaths, recovered, population, percentage) {
-    console.log(name, confirmed, deaths, recovered, population, percentage);
     $("#hover-name").text(name);
     $("#hover-confirmed").text(confirmed.toLocaleString());
     $("#hover-deaths").text(deaths.toLocaleString());
