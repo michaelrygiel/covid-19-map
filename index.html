@@ -47,11 +47,8 @@
 
         // Variables for global use
         var currentState = 0;
-        var states = {};
+        var country;
 
-        var coronavirusCountyData = [];
-        var coronavirusStateData = [];
-        var usPopulationData = [];
         var countyColorScales = {};
         var stateView = true;
         // var showActualData = true;
@@ -80,15 +77,13 @@
 
         const usMapDataPromise = Promise.resolve(d3.json('us-counties.topojson'));
         const usPopulationDataPromise = Promise.resolve(d3.csv('co-est2019-alldata.csv'));
-        const coronavirusCountyDataPromise = Promise.resolve(d3.csv('coronavirusCountyData.csv'));
-        const coronavirusStateDataPromise = Promise.resolve(d3.csv('coronavirusStateData.csv'));
+        const coronavirusDataPromise = Promise.resolve(d3.csv('coronavirusCountyData.csv'));
         const statesDataPromise = Promise.resolve(d3.csv('states.csv'));
         const countiesDataPromise = Promise.resolve(d3.csv('counties.csv'));
         Promise.all([
             usMapDataPromise,
             usPopulationDataPromise,
-            coronavirusCountyDataPromise,
-            coronavirusStateDataPromise,
+            coronavirusDataPromise,
             statesDataPromise,
             countiesDataPromise])
             .then(ready);
@@ -108,14 +103,10 @@
 
         function ready(promiseData) {
             let usMapData = promiseData[0];
-            usPopulationData = promiseData[1];
-            coronavirusCountyData = promiseData[2];
-            coronavirusStateData = promiseData[3];
 
             country = generateCountry(promiseData);
-            console.log(country);
-
             countyColorScales = generateCountyColorScales();
+            console.log(country);
 
             g.append("g")
                 .attr("id", "counties")
@@ -204,19 +195,19 @@
         }
 
         function generateCountry(promiseData) {
-            states = generateStates(promiseData);
+            states = generateStatesForCountry(promiseData);
             return new Country("United States", states, generateCountryCoronavirusCases(states));
         }
 
-        function generateStates(promiseData) {
+        function generateStatesForCountry(promiseData) {
             let states = {};
             let usPopulationCSV = promiseData[1],
                 coronavirusCSV = promiseData[2],
-                statesCSV = promiseData[4],
-                countiesCSV = promiseData[5];
+                statesCSV = promiseData[3],
+                countiesCSV = promiseData[4];
 
             statesCSV.forEach(state => {
-                let counties = generateCountiesForState(state["stateID"], countiesCSV, coronavirusCSV);
+                let counties = generateCountiesForState(state["stateID"], countiesCSV, coronavirusCSV, usPopulationCSV);
                 let coronavirusCases = generateStateCoronavirusCases(counties);
                 states[parseInt(state["stateID"])] = new State(state["stateID"], state["stateName"], counties, coronavirusCases);
             });
