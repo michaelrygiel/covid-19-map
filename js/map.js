@@ -95,7 +95,7 @@ function ready(promiseData) {
 }
 
 function initialize() {
-    country.updateStateColors();
+    country.updateStateColors(PopulationRadioButton.getValue());
     hoverShowUS();
 }
 
@@ -142,19 +142,4 @@ function reset() {
         .duration(1000)
         .style("stroke-width", "1.5px")
         .attr('transform', 'translate('+margin.left+','+margin.top+')');
-}
-
-function changeActualOrPercentageData(radio) {
-    if ((showActualData && radio.value === "percentage") || (!showActualData && radio.value === "actual")) {
-        showActualData = radio.value !== "percentage";
-        changeColors();
-        console.log('New value: ' + radio.value + " " + showActualData);
-    }
-}
-
-function changeColors() {
-    // Find all child elements of states and counties <g> html tags
-    // For each the elements, change fill attributes on style using respective updateColor functions
-    // Make the updateColor functions take another variable, showActualData boolean, to determine if to use actual or percentage data
-    return undefined;
 }

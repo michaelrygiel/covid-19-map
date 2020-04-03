@@ -1,3 +1,22 @@
+const PopulationRadioButton = {
+    ACTUAL: "actual",
+    PERCENTAGE: "percentage",
+
+    getValue: function () {
+        return $("input[name='population-radio']:checked").val();
+    }
+};
+
+// const CoronavirusCasesRadioButton = {
+//     CONFIRMED: "confirmed",
+//     DEATHS: "deaths",
+//     RECOVERED: "recovered",
+//
+//     getCoronavirusCasesRadioValue() {
+//         return -1;
+//     }
+// };
+
 class Country {
     constructor(name, states, coronavirusCases, population) {
         this.name = name;
@@ -8,10 +27,6 @@ class Country {
 
     getName() {
         return this.name;
-    }
-
-    getStates() {
-        return this.states;
     }
 
     getStateIDs() {
@@ -34,25 +49,56 @@ class Country {
         return this.population;
     }
 
-    getStateConfirmedCases(stateID) {
-        return this.getState(stateID).getCoronavirusCases().getConfirmed();
+    getStateColorScale(populationRadioValue) {
+        let maxConfirmedCases = this.getMaxConfirmedCasesAmongStates(populationRadioValue);
+        return d3.scaleSqrt().domain([0, maxConfirmedCases]).range(['beige', 'red']);
     }
 
-    getMaxConfirmedCasesAmongStates() {
+    getStateConfirmedCases(stateID, populationRadioValue) {
+        if (populationRadioValue === PopulationRadioButton.ACTUAL) {
+            return this.getStateActualConfirmedCases(stateID);
+        } else if ((populationRadioValue === PopulationRadioButton.PERCENTAGE)) {
+            return this.getStatePercentageConfirmedCases(stateID);
+        }
+    }
+
+    getStateActualConfirmedCases(stateID) {
+        return this.getState(stateID).getConfirmedCases();
+    }
+
+    getStatePercentageConfirmedCases(stateID) {
+        return this.getState(stateID).getPercentageConfirmedCases();
+    }
+
+    getMaxConfirmedCasesAmongStates(populationRadioValue) {
+        if (populationRadioValue === PopulationRadioButton.ACTUAL) {
+            return this.getMaxActualConfirmedCasesAmongStates();
+        } else if ((populationRadioValue === PopulationRadioButton.PERCENTAGE)) {
+            return this.getMaxPercentageConfirmedCasesAmongStates();
+        }
+    }
+
+    getMaxActualConfirmedCasesAmongStates() {
         return d3.max(
-            Object.keys(this.getStates()),
-            stateID => {return +this.getState(stateID).getCoronavirusCases().getConfirmed()}
+            this.getStateIDs(),
+            stateID => {return this.getStateActualConfirmedCases(stateID)}
         );
     }
 
-    updateStateColors() {
-        let maxConfirmedCases = this.getMaxConfirmedCasesAmongStates();
-        let colorScale = d3.scaleSqrt().domain([0, maxConfirmedCases]).range(['beige', 'red']);
+    getMaxPercentageConfirmedCasesAmongStates() {
+        return d3.max(
+            this.getStateIDs(),
+            stateID => {return (this.getStatePercentageConfirmedCases(stateID))}
+        );
+    }
+
+    updateStateColors(populationRadioValue) {
+        let colorScale = this.getStateColorScale(populationRadioValue);
         let ids = this.getStateIDs();
         ids.forEach(id => {
             let path = $("path#"+ id +".state");
-            path.attr('fill', colorScale(this.getStateConfirmedCases(id)));
-        })
+            path.attr('fill', colorScale(this.getStateConfirmedCases(id, populationRadioValue)));
+        });
     }
 
     updateCountyColors(stateID) {
@@ -93,8 +139,16 @@ class State {
         return this.population;
     }
 
+    getConfirmedCases() {
+        return this.getCoronavirusCases().getConfirmed();
+    }
+
     getCountyConfirmedCases(countyID) {
         return this.getCounty(countyID).getCoronavirusCases().getConfirmed();
+    }
+
+    getPercentageConfirmedCases() {
+        return this.getConfirmedCases() / this.getPopulation();
     }
 
     getMaxConfirmedCasesAmongCounties() {

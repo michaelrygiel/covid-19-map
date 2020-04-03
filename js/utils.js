@@ -49,9 +49,29 @@ function changeCountyData(fullID) {
 }
 
 function changeHoverData(name, confirmed, deaths, recovered, population) {
-    $('#name').text(name);
-    $('#population').text(parseInt(population).toLocaleString());
-    $('#confirmed').text(confirmed.toLocaleString());
-    $('#deaths').text(deaths.toLocaleString());
-    $('#recovered').text(recovered.toLocaleString());
+    $("#name").text(name);
+    $("#population").text(parseInt(population).toLocaleString());
+    $("#confirmed").text(confirmed.toLocaleString());
+    $("#deaths").text(deaths.toLocaleString());
+    $("#recovered").text(recovered.toLocaleString());
+}
+
+function changePopulationData(radio) {
+    if ((showActualData && radio.value === PopulationRadioButton.PERCENTAGE)
+        || (!showActualData && radio.value === PopulationRadioButton.ACTUAL)) {
+
+            showActualData = radio.value !== PopulationRadioButton.PERCENTAGE;
+            changeColors(radio.value);
+    }
+}
+
+function changeColors(populationRadioValue) {
+    if (stateView) {
+        country.updateStateColors(populationRadioValue);
+        // Change state colors dependent on radio button value
+    }
+    else {
+        // country.updateCountyColors();
+        // Change county colors dependent on radio button value
+    }
 }
