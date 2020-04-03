@@ -1,25 +1,25 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>D3: Zoom in to reveal counties</title>
+    <title>United States COVID-19 Outbreak Visualization. Click on states to zoom in and view outbreaks in each county. Hover over counties and states to see respective data</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <h1>United States COVID-19 Outbreak Visualization</h1>
     <h6>Updated values as of March 26th, 2019</h6>
     <div class="us-map-visualization"></div>
-    <div class="toggle-data">
-        <div>
-            <label>Actual Numbers or Percentage Based on Population</label>
-            <form>
-                <input type="radio" id="actual" name="actual-or-percentage" onclick="changeActualOrPercentageData(this);" value="actual" checked>
-                <label for="actual">Actual</label><br>
-                <input type="radio" id="percentage" name="actual-or-percentage" onclick="changeActualOrPercentageData(this);" value="percentage">
-                <label for="percentage">Percentage</label><br>
-            </form>
-        </div>
-    </div>
+<!--    <div class="toggle-data">-->
+<!--        <div>-->
+<!--            <label>Actual Numbers or Percentage Based on Population</label>-->
+<!--            <form>-->
+<!--                <input type="radio" id="actual" name="actual-or-percentage" onclick="changeActualOrPercentageData(this);" value="actual" checked>-->
+<!--                <label for="actual">Actual</label><br>-->
+<!--                <input type="radio" id="percentage" name="actual-or-percentage" onclick="changeActualOrPercentageData(this);" value="percentage">-->
+<!--                <label for="percentage">Percentage</label><br>-->
+<!--            </form>-->
+<!--        </div>-->
+<!--    </div>-->
     <br>
     <div class="hoverData">
         <div>
@@ -42,60 +42,19 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.7.0/d3.min.js"></script>
     <script type="text/javascript" src="https://d3js.org/topojson.v3.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="utils.js"></script>
     <script type="text/javascript">
-
-        // class state {
-        //     /*
-        //     Variables
-        //         stateID
-        //         stateName
-        //         population
-        //         confirmed
-        //         deaths
-        //         recovered
-        //         counties
-        //      */
-        //     constructor() {
-        //
-        //     }
-        // }
-        //
-        // class county {
-        //     /*
-        //     Variables
-        //         countyID
-        //         stateID
-        //         countyName
-        //         population
-        //         confirmed
-        //         deaths
-        //         recovered
-        //      */
-        //     constructor() {
-        //     }
-        // }
-        //
-        // class covidCases {
-        //     /*
-        //     Variables
-        //         confirmed
-        //         deaths
-        //         recovered
-        //      */
-        //     constructor() {
-        //     }
-        // }
 
         // Variables for global use
         var currentState = 0;
-        var states = [];
-        var counties = [];
+        var states = {};
+
         var coronavirusCountyData = [];
         var coronavirusStateData = [];
         var usPopulationData = [];
         var countyColorScales = {};
         var stateView = true;
-        var showActualData = true;
+        // var showActualData = true;
 
         var margin = {
             top: 10,
@@ -147,49 +106,54 @@
             .attr('width', width + margin.left + margin.right)
             .attr('height', height + margin.top + margin.bottom)
 
-        function ready(data) {
-            let usData = data[0];
-            usPopulationData = data[1];
-            coronavirusCountyData = data[2];
-            coronavirusStateData = data[3];
-            states = data[4];
-            counties = data[5];
+        function ready(promiseData) {
+            let usMapData = promiseData[0];
+            usPopulationData = promiseData[1];
+            coronavirusCountyData = promiseData[2];
+            coronavirusStateData = promiseData[3];
+
+            country = generateCountry(promiseData);
+            console.log(country);
 
             countyColorScales = generateCountyColorScales();
 
             g.append("g")
                 .attr("id", "counties")
                 .selectAll("path")
-                .data(topojson.feature(usData, usData.objects.counties).features)
+                .data(topojson.feature(usMapData, usMapData.objects.counties).features)
                 .enter().append("path")
                 .attr("d", path)
                 .attr("class", "county-boundary")
                 .attr("id", d => { return d.id; })
                 .style('fill', function(d) {
-                        return updateCountyColor(d.id);
-                      })
+                            return updateCountyColor(d.id);
+                        })
                 .on("click", reset)
-                .on('mouseenter', hoverCounties)
-                .on('mouseleave', hoverShowState);
+                .on('mouseenter', function(d) {
+                            return hoverCounties(d.id);
+                        })
+                .on('mouseleave', hoverStates(currentState));
 
             g.append("g")
                 .attr("id", "states")
                 .selectAll("path")
-                .data(topojson.feature(usData, usData.objects.states).features)
+                .data(topojson.feature(usMapData, usMapData.objects.states).features)
                 .enter().append("path")
                 .attr("d", path)
                 .attr("class", "state")
                 .attr("id", d => { return d.id; })
                 .style('fill', function(d) {
-                        return updateStateColor(d.id);
-                      })
+                            return updateStateColor(d.id);
+                        })
                 .on("click", clicked)
-                .on('mouseenter', hoverStates)
+                .on('mouseenter', function(d) {
+                            return hoverStates(d.id);
+                        })
                 .on('mouseleave', hoverShowUS);
 
 
             g.append("path")
-                .datum(topojson.mesh(usData, usData.objects.states, function(a, b) { return a !== b; }))
+                .datum(topojson.mesh(usMapData, usMapData.objects.states, function(a, b) { return a !== b; }))
                 .attr("id", "state-borders")
                 .attr("d", path);
             hoverShowUS();
@@ -224,7 +188,6 @@
                 .attr("transform", "translate(" + translate + ")scale(" + scale + ")");
         }
 
-
         function reset() {
             active.classed("active", false);
             active = d3.select(null);
@@ -240,117 +203,126 @@
 
         }
 
-        function changeActualOrPercentageData(radio) {
-            if ((showActualData && radio.value === "percentage") || (!showActualData && radio.value === "actual")) {
-                showActualData = radio.value !== "percentage";
-                changeColors();
-                console.log('New value: ' + radio.value + " " + showActualData);
-            }
+        function generateCountry(promiseData) {
+            states = generateStates(promiseData);
+            return new Country("United States", states, generateCountryCoronavirusCases(states));
         }
 
-        function changeColors() {
-            // Find all child elements of states and counties <g> html tags
-            // For each the elements, change fill attributes on style using respective updateColor functions
-            // Make the updateColor functions take another variable, showActualData boolean, to determine if to use actual or percentage data
-            return undefined;
+        function generateStates(promiseData) {
+            let states = {};
+            let usPopulationCSV = promiseData[1],
+                coronavirusCSV = promiseData[2],
+                statesCSV = promiseData[4],
+                countiesCSV = promiseData[5];
+
+            statesCSV.forEach(state => {
+                let counties = generateCountiesForState(state["stateID"], countiesCSV, coronavirusCSV);
+                let coronavirusCases = generateStateCoronavirusCases(counties);
+                states[parseInt(state["stateID"])] = new State(state["stateID"], state["stateName"], counties, coronavirusCases);
+            });
+            return states;
         }
 
-        function updateStateColor(stateID) {
-            let maxStateConfirmedCases = d3.max(coronavirusStateData, state => {return +state.confirmed});
-            let stateColorScale = d3.scaleSqrt().domain([0, maxStateConfirmedCases]).range(['beige', 'red']);
-            return stateColorScale(findConfirmedCasesInState(stateID));
+        function generateCountiesForState(stateID, countiesCSV, coronavirusCSV) {
+            let counties = {};
+            let countiesList = countiesCSV.filter(county => county["stateID"] === stateID);
+            countiesList.forEach(county => {
+                let countyCoronavirusCases = generateCountyCoronavirusCases(county["countyID"], stateID, coronavirusCSV);
+                counties[parseInt(county["countyID"])] = new County(county["countyID"], county["countyName"], stateID, countyCoronavirusCases)
+            });
+            return counties;
         }
+
+        function generateCountyCoronavirusCases(countyID, stateID, coronavirusCSV) {
+            let coronavirusCounty = coronavirusCSV.find(coronavirusCounty => coronavirusCounty["fips"] === (stateID + countyID));
+            return coronavirusCounty
+                ? new CoronavirusCases(
+                    parseInt(coronavirusCounty.confirmed),
+                    parseInt(coronavirusCounty.deaths),
+                    parseInt(coronavirusCounty.recovered))
+                : new CoronavirusCases();
+        }
+
+        function generateStateCoronavirusCases(counties) {
+            let stateConfirmed = 0, stateDeaths = 0, stateRecovered = 0;
+            Object.keys(counties).forEach(function (key) {
+                stateConfirmed += counties[key].getCoronavirusCases().getConfirmed();
+                stateDeaths += counties[key].getCoronavirusCases().getDeaths();
+                stateRecovered += counties[key].getCoronavirusCases().getRecovered();
+            });
+            return new CoronavirusCases(stateConfirmed, stateDeaths, stateRecovered);
+        }
+
+        function generateCountryCoronavirusCases(states) {
+            let countryConfirmed = 0, countryDeaths = 0, countryRecovered = 0;
+            Object.keys(states).forEach(function (key) {
+                countryConfirmed += states[key].getCoronavirusCases().getConfirmed();
+                countryDeaths += states[key].getCoronavirusCases().getDeaths();
+                countryRecovered += states[key].getCoronavirusCases().getRecovered();
+            });
+            return new CoronavirusCases(countryConfirmed, countryDeaths, countryRecovered);
+        }
+
+        // function changeActualOrPercentageData(radio) {
+        //     if ((showActualData && radio.value === "percentage") || (!showActualData && radio.value === "actual")) {
+        //         showActualData = radio.value !== "percentage";
+        //         changeColors();
+        //         console.log('New value: ' + radio.value + " " + showActualData);
+        //     }
+        // }
+        //
+        // function changeColors() {
+        //     // Find all child elements of states and counties <g> html tags
+        //     // For each the elements, change fill attributes on style using respective updateColor functions
+        //     // Make the updateColor functions take another variable, showActualData boolean, to determine if to use actual or percentage data
+        //     return undefined;
+        // }
 
         function hoverShowUS() {
-            let confirmed = 0, deaths = 0, recovered = 0;
-            coronavirusStateData.forEach(state => {
-                confirmed += parseInt(state.confirmed);
-                deaths += parseInt(state.deaths);
-                recovered += parseInt(state.recovered);
-            });
-            changeHoverData("United States", confirmed, deaths, recovered);
+            changeHoverData(
+                country.getName(),
+                country.getCoronavirusCases().getConfirmed(),
+                country.getCoronavirusCases().getDeaths(),
+                country.getCoronavirusCases().getRecovered()
+            );
         }
 
-        function hoverShowState() {
-            changeStateData(currentState);
-        }
-
-        function hoverStates(state) {
+        function hoverStates(stateID) {
             if (stateView) {
-                changeStateData(state.id);
+                changeStateData(stateID);
             } else {
                 changeStateData(currentState);
             }
-            console.log("hovering over a state: " + findStateName(state.id));
+        }
+
+        function hoverCounties(fullID) {
+            if (!stateView) {
+                changeCountyData(fullID);
+            }
         }
 
         function changeStateData(stateID){
-            state = coronavirusStateData.find(x => parseInt(x.stateID) === stateID);
+            let state = states[stateID];
             if (state) {
-                changeHoverData(state.stateName, state.confirmed, state.deaths, state.recovered);
-            }
-        }
-
-        function findConfirmedCasesInState(stateID) {
-            if (stateID === 72) {
-                return 0;
-            }
-            return coronavirusStateData.find(x => parseInt(x.stateID) === stateID).confirmed;
-        }
-
-        function findStateName(stateID) {
-            return states.find(x => parseInt(x.stateID) === stateID).stateName;
-        }
-
-        function updateCountyColor(countyID) {
-            countyColorScale = countyColorScales[convertFullID(countyID)[0]];
-            if (countyColorScale) {
-                return countyColorScale(findConfirmedCasesInCounty(countyID));
-            }
-        }
-
-        function hoverCounties(county) {
-            if (!stateView) {
-                changeCountyData(county.id);
-                console.log("hovering over a county: " + findCountyName(county.id));
+                changeHoverData(
+                    state.getName(),
+                    state.getCoronavirusCases().getConfirmed(),
+                    state.getCoronavirusCases().getDeaths(),
+                    state.getCoronavirusCases().getRecovered()
+                );
             }
         }
 
         function changeCountyData(fullID) {
-            county = coronavirusCountyData.find(x => parseInt(x.fips) === fullID);
+            county = country.getCounty(fullID);
             if (county) {
-                changeHoverData(county.countyName, county.confirmed, county.deaths, county.recovered);
+                changeHoverData(
+                    county.getName(),
+                    county.getCoronavirusCases().getConfirmed(),
+                    county.getCoronavirusCases().getDeaths(),
+                    county.getCoronavirusCases().getRecovered()
+                );
             }
-        }
-
-        function generateCountyColorScales() {
-            // Split up data by state and put all counties in each state object
-            countiesInState = {};
-            coronavirusCountyData.forEach(coronavirusCounty => {
-                stateID = convertFullID(coronavirusCounty.fips)[0];
-                if (countiesInState.hasOwnProperty(stateID)) {
-                    countiesInState[stateID].push(coronavirusCounty);
-                }
-                else {
-                    countiesInState[stateID] = [coronavirusCounty];
-                }
-            });
-
-            // Run through states and generate color scale for counties
-            countyColorScales = {};
-            for (key in countiesInState) {
-                let maxCountyConfirmedCases = d3.max(countiesInState[key], d => {return +d.confirmed});
-                countyColorScales[key] = d3.scaleSqrt().domain([0, maxCountyConfirmedCases]).range(['beige', 'red']);
-            }
-            return countyColorScales;
-        }
-
-        function findConfirmedCasesInCounty(fullID) {
-            if (fullID.toString().substring(0, 2) === '72') {
-                return 0;
-            }
-            confirmedCases = coronavirusCountyData.find(x => parseInt(x.fips) === fullID);
-            return confirmedCases ? confirmedCases.confirmed : 0;
         }
 
         function changeHoverData(name, confirmed, deaths, recovered) {
@@ -360,15 +332,35 @@
             $('#recovered').text(recovered);
         }
 
-        function findCountyName(fullID){
-            ids = convertFullID(fullID);
-            let stateID = ids[0];
-            let countyID = ids[1];
-            return counties.find(x => parseInt(x.stateID) === stateID && parseInt(x.countyID) === countyID).countyName;
+
+
+        function updateStateColor(stateID) {
+            let maxStateConfirmedCases = country.getMaxConfirmedCasesAmongStates();
+            let stateColorScale = d3.scaleSqrt().domain([0, maxStateConfirmedCases]).range(['beige', 'red']);
+            return stateColorScale(country.getStateConfirmedCases(stateID));
         }
 
-        function convertFullID(fullID) {
-            id = fullID.toString();
+        function updateCountyColor(fullID) {
+            countyColorScale = countyColorScales[convertFullIDToStateAndCountyID(fullID)[0]];
+            if (countyColorScale) {
+                if (country.getCounty(fullID)) {
+                    return countyColorScale(country.getCounty(fullID).getCoronavirusCases().getConfirmed());
+                }
+            }
+        }
+
+        function generateCountyColorScales() {
+            // Run through states and generate color scale for counties
+            countyColorScales = {};
+            for (stateID in country.getStates()) {
+                let maxCountyConfirmedCases = country.getState(stateID).getCountyWithMaxConfirmedCases();
+                countyColorScales[stateID] = d3.scaleSqrt().domain([0, maxCountyConfirmedCases]).range(['beige', 'red']);
+            }
+            return countyColorScales;
+        }
+
+        function convertFullIDToStateAndCountyID(fullID) {
+            let id = fullID.toString();
             let stateID = -1;
             let countyID = -1;
 

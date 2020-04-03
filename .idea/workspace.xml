@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a4de8e39-f0f0-4c7f-94ec-87319faf178a" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/utils.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/thingsToDo.txt" beforeDir="false" afterPath="$PROJECT_DIR$/thingsToDo.txt" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -16,6 +16,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="CSS File" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -25,6 +26,7 @@
   <component name="ProjectId" id="1ZrJyHJIfcwjntSJYP7lThQg5as" />
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="JavaScript" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors" />
@@ -53,7 +55,8 @@
       <updated>1585591531026</updated>
       <workItem from="1585591532623" duration="8043000" />
       <workItem from="1585683247918" duration="17000" />
-      <workItem from="1585842382277" duration="1380000" />
+      <workItem from="1585842382277" duration="5068000" />
+      <workItem from="1585857362300" duration="13625000" />
     </task>
     <servers />
   </component>
