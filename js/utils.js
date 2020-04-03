@@ -4,7 +4,7 @@ function hoverShowUS() {
         country.getCoronavirusCases().getConfirmed(),
         country.getCoronavirusCases().getDeaths(),
         country.getCoronavirusCases().getRecovered(),
-        country.getPopulation
+        country.getPopulation()
     );
 }
 
@@ -50,8 +50,8 @@ function changeCountyData(fullID) {
 
 function changeHoverData(name, confirmed, deaths, recovered, population) {
     $('#name').text(name);
-    $('#confirmed').text(confirmed);
-    $('#deaths').text(deaths);
-    $('#recovered').text(recovered);
-    $('#population').text(population);
+    $('#population').text(parseInt(population).toLocaleString());
+    $('#confirmed').text(confirmed.toLocaleString());
+    $('#deaths').text(deaths.toLocaleString());
+    $('#recovered').text(recovered.toLocaleString());
 }
