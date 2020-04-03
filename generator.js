@@ -25,29 +25,41 @@ const CountyPopulationCSVColumns = {
 }
 
 function generateCountry(promiseData) {
-    let states = generateStatesForCountry(promiseData);
-    return new Country(COUNTRY_NAME, states, generateStateOrCountryCoronavirusCases(states));
-}
-
-function generateStatesForCountry(promiseData) {
-    let states = {};
     let usPopulationCSV = promiseData[1],
         coronavirusCSV = promiseData[2],
         statesCSV = promiseData[3],
         countiesCSV = promiseData[4];
 
+    let states = generateStatesForCountry(usPopulationCSV, coronavirusCSV, statesCSV, countiesCSV);
+    return new Country(
+        COUNTRY_NAME,
+        states,
+        generateStateOrCountryCoronavirusCases(states),
+        generateCountryPopulation(states)
+    );
+}
+
+function generateStatesForCountry(usPopulationCSV, coronavirusCSV, statesCSV, countiesCSV) {
+    let states = {};
+
     statesCSV.forEach(state => {
+        let stateID = state[StateCSVColumns.STATE_ID]
         let counties = generateCountiesForState(
-            state[StateCSVColumns.STATE_ID],
+            stateID,
             countiesCSV,
             coronavirusCSV,
             usPopulationCSV
         );
-        states[state[StateCSVColumns.STATE_ID]] = new State(
-            state[StateCSVColumns.STATE_ID],
+        let statePopulation = generateStatePopulation(
+            stateID,
+            usPopulationCSV
+        );
+        states[stateID] = new State(
+            stateID,
             state[StateCSVColumns.STATE_NAME],
             counties,
-            generateStateOrCountryCoronavirusCases(counties)
+            generateStateOrCountryCoronavirusCases(counties),
+            statePopulation
         );
     });
     return states;
@@ -63,14 +75,51 @@ function generateCountiesForState(stateID, countiesCSV, coronavirusCSV, usPopula
             stateID,
             coronavirusCSV
         );
+        let countyPopulation = generateCountyPopulation(
+            county[CountyCSVColumns.COUNTY_ID],
+            stateID,
+            usPopulationCSV
+        );
         counties[county[CountyCSVColumns.COUNTY_ID]] = new County(
             county[CountyCSVColumns.COUNTY_ID],
             county[CountyCSVColumns.COUNTY_NAME],
             stateID,
-            countyCoronavirusCases
+            countyCoronavirusCases,
+            countyPopulation
         );
     });
     return counties;
+}
+
+function generateCountyPopulation(countyID, stateID, usPopulationCSV) {
+    let countyPopulation = usPopulationCSV.find(
+        countyPopulation =>
+            parseInt(countyID) === parseInt(countyPopulation[CountyPopulationCSVColumns.COUNTY_ID])
+            && parseInt(stateID) === parseInt(countyPopulation[CountyPopulationCSVColumns.STATE_ID])
+    );
+    return countyPopulation
+        ? countyPopulation[CountyPopulationCSVColumns.POPULATION]
+        : 0;
+}
+
+function generateStatePopulation(stateID, usPopulationCSV) {
+    const statePopulationCSVValue = 0;
+    let statePopulation = usPopulationCSV.find(
+        statePopulation =>
+            statePopulationCSVValue === parseInt(statePopulation[CountyPopulationCSVColumns.COUNTY_ID])
+            && parseInt(stateID) === parseInt(statePopulation[CountyPopulationCSVColumns.STATE_ID])
+    );
+    return statePopulation
+        ? statePopulation[CountyPopulationCSVColumns.POPULATION]
+        : 0;
+}
+
+function generateCountryPopulation(states) {
+    let countryPopulation = 0;
+    Object.keys(states).forEach(function (key) {
+        countryPopulation += parseInt(states[key].getPopulation());
+    });
+    return countryPopulation.toString();
 }
 
 function generateCountyCoronavirusCases(countyID, stateID, coronavirusCSV) {
@@ -95,13 +144,3 @@ function generateStateOrCountryCoronavirusCases(regions) {
     });
     return new CoronavirusCases(confirmed, deaths, recovered);
 }
-
-// function generateCountryCoronavirusCases(states) {
-//     let countryConfirmed = 0, countryDeaths = 0, countryRecovered = 0;
-//     Object.keys(states).forEach(function (key) {
-//         countryConfirmed += states[key].getCoronavirusCases().getConfirmed();
-//         countryDeaths += states[key].getCoronavirusCases().getDeaths();
-//         countryRecovered += states[key].getCoronavirusCases().getRecovered();
-//     });
-//     return new CoronavirusCases(countryConfirmed, countryDeaths, countryRecovered);
-// }

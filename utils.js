@@ -1,123 +1,57 @@
-class Country {
-    constructor(name, states, coronavirusCases) {
-        this.name = name;
-        this.states = states;
-        this.coronavirusCases = coronavirusCases;
-    }
+function hoverShowUS() {
+    changeHoverData(
+        country.getName(),
+        country.getCoronavirusCases().getConfirmed(),
+        country.getCoronavirusCases().getDeaths(),
+        country.getCoronavirusCases().getRecovered(),
+        country.getPopulation
+    );
+}
 
-    getName() {
-        return this.name;
+function hoverStates(stateID) {
+    if (stateView) {
+        changeStateData(stateID);
+    } else {
+        changeStateData(currentStateID);
     }
+}
 
-    getStates() {
-        return this.states;
+function hoverCounties(fullID) {
+    if (!stateView) {
+        changeCountyData(fullID);
     }
+}
 
-    getState(stateID) {
-        return this.states[stateID];
-    }
-
-    getCounty(fullID) {
-        return this.getState(fullID.substring(0,2)).getCounty(fullID.substring(2,5));
-    }
-
-    getCoronavirusCases() {
-        return this.coronavirusCases;
-    }
-
-    getStateConfirmedCases(stateID) {
-        return this.getState(stateID).getCoronavirusCases().getConfirmed();
-    }
-
-    getMaxConfirmedCasesAmongStates() {
-        return d3.max(
-            Object.keys(this.getStates()),
-            stateID => {return +this.getState(stateID).getCoronavirusCases().getConfirmed()}
+function changeStateData(stateID){
+    let state = country.getState(stateID);
+    if (state) {
+        changeHoverData(
+            state.getName(),
+            state.getCoronavirusCases().getConfirmed(),
+            state.getCoronavirusCases().getDeaths(),
+            state.getCoronavirusCases().getRecovered(),
+            state.getPopulation()
         );
     }
 }
 
-class State {
-    /*
-    Variables
-        stateID
-        stateName
-        counties
-        population
-        CoronavirusCases
-     */
-    constructor(stateID, name, counties, coronavirusCases) {
-        this.stateID = stateID;
-        this.counties = counties;
-        this.name = name;
-        this.coronavirusCases = coronavirusCases;
-    }
-
-    getCounty(countyID) {
-        return this.counties[countyID];
-    }
-
-    getCounties() {
-        return this.counties;
-    }
-
-    getName() {
-        return this.name;
-    }
-
-    getCoronavirusCases() {
-        return this.coronavirusCases;
-    }
-
-    getCountyWithMaxConfirmedCases() {
-        return d3.max(
-            Object.keys(this.getCounties()),
-            countyID => {return +this.getCounty(countyID).getCoronavirusCases().getConfirmed()}
+function changeCountyData(fullID) {
+    county = country.getCounty(fullID);
+    if (county) {
+        changeHoverData(
+            county.getName(),
+            county.getCoronavirusCases().getConfirmed(),
+            county.getCoronavirusCases().getDeaths(),
+            county.getCoronavirusCases().getRecovered(),
+            county.getPopulation()
         );
     }
 }
 
-class County {
-    /*
-    Variables
-        countyID
-        countyName
-        stateID
-        population
-        CoronavirusCases
-     */
-    constructor(countyID, name, stateID, coronavirusCases) {
-        this.countyID = countyID;
-        this.name = name;
-        this.stateID = stateID;
-        this.coronavirusCases = coronavirusCases;
-    }
-
-    getName() {
-        return this.name;
-    }
-
-    getCoronavirusCases() {
-        return this.coronavirusCases;
-    }
-}
-
-class CoronavirusCases {
-    constructor(confirmed, deaths, recovered) {
-        this.confirmed = isNaN(confirmed) ? 0: confirmed;
-        this.deaths = isNaN(deaths) ? 0 : deaths;
-        this.recovered = isNaN(recovered) ? 0 : recovered;
-    }
-
-    getConfirmed() {
-        return this.confirmed;
-    }
-
-    getDeaths() {
-        return this.deaths;
-    }
-
-    getRecovered() {
-        return this.recovered;
-    }
+function changeHoverData(name, confirmed, deaths, recovered, population) {
+    $('#name').text(name);
+    $('#confirmed').text(confirmed);
+    $('#deaths').text(deaths);
+    $('#recovered').text(recovered);
+    $('#population').text(population);
 }

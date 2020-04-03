@@ -27,6 +27,10 @@
             <label id="name"></label>
         </div>
         <div>
+            <label class="population">Population:</label>
+            <label id="population"></label>
+        </div>
+        <div>
             <label class="confirmed">Confirmed:</label>
             <label id="confirmed"></label>
         </div>
@@ -44,14 +48,13 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="utils.js"></script>
     <script src="generator.js"></script>
+    <script src="classes.js"></script>
     <script type="text/javascript">
 
         // Variables for global use
-        var currentState = 0;
-        var country;
-
-        var countyColorScales = {};
+        var currentStateID = 0;
         var stateView = true;
+        var country;
         // var showActualData = true;
 
         var margin = {
@@ -100,13 +103,11 @@
             .attr('class', 'center-container center-items us-state')
             .attr('transform', 'translate('+margin.left+','+margin.top+')')
             .attr('width', width + margin.left + margin.right)
-            .attr('height', height + margin.top + margin.bottom)
+            .attr('height', height + margin.top + margin.bottom);
 
         function ready(promiseData) {
             let usMapData = promiseData[0];
-
             country = generateCountry(promiseData);
-            countyColorScales = generateCountyColorScales();
 
             g.append("g")
                 .attr("id", "counties")
@@ -116,9 +117,6 @@
                 .attr("d", path)
                 .attr("class", "county-boundary")
                 .attr("id", d => { return d.id; })
-                .style('fill', function(d) {
-                            return updateCountyColor(d.id);
-                        })
                 .on("click", reset)
                 .on('mouseenter', function(d) {
                             return hoverCounties(d.id);
@@ -133,9 +131,6 @@
                 .attr("d", path)
                 .attr("class", "state")
                 .attr("id", d => { return d.id; })
-                .style('fill', function(d) {
-                            return updateStateColor(d.id);
-                        })
                 .on("click", clicked)
                 .on('mouseenter', function(d) {
                             return hoverStates(d.id);
@@ -147,8 +142,13 @@
                 .datum(topojson.mesh(usMapData, usMapData.objects.states, function(a, b) { return a !== b; }))
                 .attr("id", "state-borders")
                 .attr("d", path);
-            hoverShowUS();
 
+            initialize();
+        }
+
+        function initialize() {
+            country.updateStateColors();
+            hoverShowUS();
         }
 
         function clicked(d) {
@@ -162,7 +162,9 @@
 
             // Else, zoom in to state
             stateView = false;
-            currentState = d.id;
+            currentStateID = d.id;
+            country.updateCountyColors(currentStateID);
+
             active.classed("active", false);
             active = d3.select(this).classed("active", true);
 
@@ -185,14 +187,13 @@
             active = d3.select(null);
 
             stateView = true;
-            currentState = 0;
+            currentStateID = 0;
 
             g.transition()
                 .delay(100)
                 .duration(1000)
                 .style("stroke-width", "1.5px")
                 .attr('transform', 'translate('+margin.left+','+margin.top+')');
-
         }
 
         // function changeActualOrPercentageData(radio) {
@@ -210,84 +211,6 @@
         //     return undefined;
         // }
 
-        function hoverShowUS() {
-            changeHoverData(
-                country.getName(),
-                country.getCoronavirusCases().getConfirmed(),
-                country.getCoronavirusCases().getDeaths(),
-                country.getCoronavirusCases().getRecovered()
-            );
-        }
-
-        function hoverStates(stateID) {
-            if (stateView) {
-                changeStateData(stateID);
-            } else {
-                changeStateData(currentState);
-            }
-        }
-
-        function hoverCounties(fullID) {
-            if (!stateView) {
-                changeCountyData(fullID);
-            }
-        }
-
-        function changeStateData(stateID){
-            let state = country.getState(stateID);
-            if (state) {
-                changeHoverData(
-                    state.getName(),
-                    state.getCoronavirusCases().getConfirmed(),
-                    state.getCoronavirusCases().getDeaths(),
-                    state.getCoronavirusCases().getRecovered()
-                );
-            }
-        }
-
-        function changeCountyData(fullID) {
-            county = country.getCounty(fullID);
-            if (county) {
-                changeHoverData(
-                    county.getName(),
-                    county.getCoronavirusCases().getConfirmed(),
-                    county.getCoronavirusCases().getDeaths(),
-                    county.getCoronavirusCases().getRecovered()
-                );
-            }
-        }
-
-        function changeHoverData(name, confirmed, deaths, recovered) {
-            $('#name').text(name);
-            $('#confirmed').text(confirmed);
-            $('#deaths').text(deaths);
-            $('#recovered').text(recovered);
-        }
-
-        function updateStateColor(stateID) {
-            let maxStateConfirmedCases = country.getMaxConfirmedCasesAmongStates();
-            let stateColorScale = d3.scaleSqrt().domain([0, maxStateConfirmedCases]).range(['beige', 'red']);
-            return stateColorScale(country.getStateConfirmedCases(stateID));
-        }
-
-        function updateCountyColor(fullID) {
-            countyColorScale = countyColorScales[fullID.substring(0,2)];
-            if (countyColorScale) {
-                if (country.getCounty(fullID)) {
-                    return countyColorScale(country.getCounty(fullID).getCoronavirusCases().getConfirmed());
-                }
-            }
-        }
-
-        function generateCountyColorScales() {
-            // Run through states and generate color scale for counties
-            countyColorScales = {};
-            for (let stateID in country.getStates()) {
-                let maxCountyConfirmedCases = country.getState(stateID).getCountyWithMaxConfirmedCases();
-                countyColorScales[stateID] = d3.scaleSqrt().domain([0, maxCountyConfirmedCases]).range(['beige', 'red']);
-            }
-            return countyColorScales;
-        }
     </script>
 </body>
 </html>
