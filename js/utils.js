@@ -54,7 +54,7 @@ function changeCountyData(fullID) {
             county.getCoronavirusCases().getDeaths(),
             county.getCoronavirusCases().getRecovered(),
             county.getPopulation(),
-            county.getPercentageConfirmed()
+            county.getPercentageCoronavirus(CoronavirusCasesRadioButton.getValue())
         );
     }
 }

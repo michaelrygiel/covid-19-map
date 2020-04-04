@@ -159,7 +159,7 @@ class Country {
         });
     }
 
-    updateCountyColors(stateID, populationRadioValue) {
-        this.getState(stateID).updateCountyColors(populationRadioValue);
+    updateCountyColors(stateID, populationRadioValue, coronavirusRadioValue) {
+        this.getState(stateID).updateCountyColors(populationRadioValue, coronavirusRadioValue);
     }
 }
