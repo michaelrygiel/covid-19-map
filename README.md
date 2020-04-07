@@ -1,4 +1,7 @@
 # COVID 19 MAP
+
+![Recordit GIF](http://g.recordit.co/rCABhP9Rgl.gif)
+
 #### WHAT:
 
 This is a display of COVID-19 data using the [D3 library][d3] within the United States. It is designed to give both a state and county view of the COVID-19 outbreak. Users can toggle between different data to get a better understanding of the spread of the outbreak.
