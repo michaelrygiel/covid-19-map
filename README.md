@@ -1,6 +1,6 @@
 # COVID 19 MAP
 
-![Recordit GIF](http://g.recordit.co/rCABhP9Rgl.gif)
+![GIF](http://g.recordit.co/rCABhP9Rgl.gif)
 
 #### WHAT:
 
