@@ -69,7 +69,8 @@ function changeHoverData(name, confirmed, deaths, recovered, population, percent
         $("#hover-percentage").parent().hide();
     } else {
         let percentageLabel = $("#hover-percentage");
-        percentageLabel.text(percentage.toFixed(5) + '%');
+        console.log('percentage: ', percentage);
+        percentageLabel.text(percentage.toFixed(2));
         percentageLabel.parent().show();
     }
 }

@@ -47,11 +47,11 @@ class Country {
     }
 
     getPercentageDeaths() {
-        return this.getDeaths() / this.getPopulation() * 100;
+        return this.getDeaths() / this.getPopulation() * PER_ONE_HUNDRED_THOUSAND;
     }
 
     getPercentageConfirmed() {
-        return this.getConfirmed() / this.getPopulation() * 100;
+        return this.getConfirmed() / this.getPopulation() * PER_ONE_HUNDRED_THOUSAND;
     }
 
     getStateColorScale(populationRadioValue, coronavirusRadioValue) {

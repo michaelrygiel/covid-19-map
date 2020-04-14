@@ -17,6 +17,8 @@ const CoronavirusCasesRadioButton = {
     }
 };
 
+const PER_ONE_HUNDRED_THOUSAND = 100000;
+
 class CoronavirusCases {
     constructor(confirmed, deaths, recovered) {
         this.confirmed = isNaN(confirmed) ? 0: confirmed;

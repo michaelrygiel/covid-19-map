@@ -28,7 +28,7 @@ class County {
     }
 
     getPercentageConfirmed() {
-        return this.getConfirmed() / this.getPopulation() * 100;
+        return this.getConfirmed() / this.getPopulation() * PER_ONE_HUNDRED_THOUSAND;
     }
 
     getDeaths() {
@@ -36,7 +36,7 @@ class County {
     }
 
     getPercentageDeaths() {
-        return this.getDeaths() / this.getPopulation() * 100;
+        return this.getDeaths() / this.getPopulation() * PER_ONE_HUNDRED_THOUSAND;
     }
 
     getPercentageCoronavirus(coronavirusRadioValue) {
