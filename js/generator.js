@@ -2,6 +2,7 @@ const COUNTRY_NAME = "United States";
 
 const CoronavirusCSVColumns = {
     FIPS: "FIPS",
+    LAST_UPDATE: "Last_Update",
     CONFIRMED: "Confirmed",
     DEATHS: "Deaths",
     RECOVERED: "Recovered"
@@ -29,6 +30,8 @@ function generateCountry(promiseData) {
         coronavirusCSV = promiseData[2],
         statesCSV = promiseData[3],
         countiesCSV = promiseData[4];
+
+    updateUpdatedDate(new Date(coronavirusCSV[0][CoronavirusCSVColumns.LAST_UPDATE]));
 
     let states = generateStatesForCountry(usPopulationCSV, coronavirusCSV, statesCSV, countiesCSV);
     return new Country(
