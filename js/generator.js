@@ -125,7 +125,7 @@ function generateCountryPopulation(states) {
 function generateCountyCoronavirusCases(countyID, stateID, coronavirusCSV) {
     let coronavirusCounty = coronavirusCSV.find(
         coronavirusCounty =>
-            coronavirusCounty[CoronavirusCSVColumns.FIPS] === (stateID + countyID)
+            parseInt(coronavirusCounty[CoronavirusCSVColumns.FIPS]) === parseInt(stateID + countyID)
     );
     return coronavirusCounty
         ? new CoronavirusCases(
