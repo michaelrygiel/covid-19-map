@@ -7,52 +7,56 @@
 </head>
 <body>
     <h1>United States COVID-19 Outbreak Visualization</h1>
+    <main>
+        <div class="us-map-container">
+            <div class="us-map-visualization"></div>
+            <div class="sidebar-container">
+                    <div class="toggle-data">
+                        <div class="toggle-population-data">
+                            <label>Which Population Data to Color By:</label>
+                            <form>
+                                <input type="radio" id="actual-radio" name="population-radio" onclick="changePopulationData(this);" value="actual-radio" checked>
+                                <label for="actual-radio">Actual</label><br>
+                                <input type="radio" id="percentage-radio" name="population-radio" onclick="changePopulationData(this);" value="percentage-radio">
+                                <label for="percentage-radio">Per 100,000</label><br>
+                            </form>
+                        </div>
+                        <div class="toggle-coronavirus-data">
+                            <label>Which Coronavirus Data to Color By:</label>
+                            <form>
+                                <input type="radio" id="confirmed-radio" name="coronavirus-radio" onclick="changeCoronavirusData(this);" value="confirmed-radio" checked>
+                                <label for="confirmed-radio">Confirmed</label><br>
+                                <input type="radio" id="deaths-radio" name="coronavirus-radio" onclick="changeCoronavirusData(this);" value="deaths-radio">
+                                <label for="deaths-radio">Deaths</label><br>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="hover-data">
+                        <div>
+                            <label>In View:</label>
+                            <label id="hover-name"></label>
+                        </div>
+                        <div>
+                            <label>Population:</label>
+                            <label id="hover-population"></label>
+                        </div>
+                        <div style="display: none;">
+                            <label>Per 100,000:</label>
+                            <label id="hover-percentage"></label>
+                        </div>
+                        <div>
+                            <label>Confirmed:</label>
+                            <label id="hover-confirmed"></label>
+                        </div>
+                        <div>
+                            <label>Deaths:</label>
+                            <label id="hover-deaths"></label>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </main>
     <h4 id="updated-date"></h4>
-    <div class="us-map-visualization"></div>
-    <div class="toggle-data">
-        <div>
-            <label>Which Population Data to Color By:</label>
-            <form>
-                <input type="radio" id="actual-radio" name="population-radio" onclick="changePopulationData(this);" value="actual-radio" checked>
-                <label for="actual-radio">Actual</label><br>
-                <input type="radio" id="percentage-radio" name="population-radio" onclick="changePopulationData(this);" value="percentage-radio">
-                <label for="percentage-radio">Per 100,000</label><br>
-            </form>
-        </div>
-        <br>
-        <div>
-            <label>Which Coronavirus Data to Color By:</label>
-            <form>
-                <input type="radio" id="confirmed-radio" name="coronavirus-radio" onclick="changeCoronavirusData(this);" value="confirmed-radio" checked>
-                <label for="confirmed-radio">Confirmed</label><br>
-                <input type="radio" id="deaths-radio" name="coronavirus-radio" onclick="changeCoronavirusData(this);" value="deaths-radio">
-                <label for="deaths-radio">Deaths</label><br>
-            </form>
-        </div>
-        <br>
-    </div>
-    <div class="hoverData">
-        <div>
-            <label>In View:</label>
-            <label id="hover-name"></label>
-        </div>
-        <div>
-            <label>Population:</label>
-            <label id="hover-population"></label>
-        </div>
-        <div style="display: none;">
-            <label>Per 100,000:</label>
-            <label id="hover-percentage"></label>
-        </div>
-        <div>
-            <label>Confirmed:</label>
-            <label id="hover-confirmed"></label>
-        </div>
-        <div>
-            <label>Deaths:</label>
-            <label id="hover-deaths"></label>
-        </div>
-    </div>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.7.0/d3.min.js"></script>
     <script type="text/javascript" src="https://d3js.org/topojson.v3.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
