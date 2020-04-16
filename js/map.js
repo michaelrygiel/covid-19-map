@@ -82,7 +82,7 @@ function ready(promiseData) {
         .on('mouseenter', function(d) {
             return hoverStates(d.id);
         })
-        .on('mouseleave', hoverShowUS);
+        .on('mouseleave', hoverReset);
 
 
     g.append("path")
