@@ -67,6 +67,13 @@ h1 {
     fill: darkred !important;
 }
 
+.toggle-data-title {
+    text-align: center;
+    width: 100%;
+    font-size: 2rem;
+    border-bottom: 1px solid lightgray;
+}
+
 input[type="radio"][disabled] + label{
     color: gray;
     text-decoration: line-through;
