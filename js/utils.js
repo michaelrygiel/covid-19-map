@@ -27,7 +27,8 @@ function hoverShowUS() {
         country.getCoronavirusCases().getDeaths(),
         country.getCoronavirusCases().getRecovered(),
         country.getPopulation(),
-        country.getPercentageCoronavirus(CoronavirusCasesRadioButton.getValue())
+        country.getPercentageConfirmed(),
+        country.getPercentageDeaths()
     );
 }
 
@@ -40,7 +41,8 @@ function changeStateData(stateID){
             state.getCoronavirusCases().getDeaths(),
             state.getCoronavirusCases().getRecovered(),
             state.getPopulation(),
-            state.getPercentageCoronavirus(CoronavirusCasesRadioButton.getValue())
+            state.getPercentageConfirmed(),
+            state.getPercentageDeaths()
         );
     }
 }
@@ -54,19 +56,20 @@ function changeCountyData(fullID) {
             county.getCoronavirusCases().getDeaths(),
             county.getCoronavirusCases().getRecovered(),
             county.getPopulation(),
-            county.getPercentageCoronavirus(CoronavirusCasesRadioButton.getValue())
+            county.getPercentageConfirmed(),
+            county.getPercentageDeaths()
         );
     }
 }
 
-function changeHoverData(name, confirmed, deaths, recovered, population, percentage) {
+function changeHoverData(name, confirmed, deaths, recovered, population, confirmedPercentage, deathsPercentage) {
     $("#hover-name").text(name);
     $("#hover-confirmed").text(confirmed.toLocaleString());
     $("#hover-deaths").text(deaths.toLocaleString());
     $("#hover-recovered").text(recovered.toLocaleString());
     $("#hover-population").text(parseInt(population).toLocaleString());
-    let percentageLabel = $("#hover-percentage");
-    percentageLabel.text(percentage.toFixed(2));
+    $("#hover-confirmed-percentage").text(confirmedPercentage.toFixed(0));
+    $("#hover-deaths-percentage").text(deathsPercentage.toFixed(0));
 }
 
 function updateUpdatedDate(date) {

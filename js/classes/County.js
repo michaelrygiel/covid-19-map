@@ -38,12 +38,4 @@ class County {
     getPercentageDeaths() {
         return this.getDeaths() / this.getPopulation() * PER_ONE_HUNDRED_THOUSAND;
     }
-
-    getPercentageCoronavirus(coronavirusRadioValue) {
-        if (coronavirusRadioValue === CoronavirusCasesRadioButton.CONFIRMED) {
-            return this.getPercentageConfirmed();
-        } else if (coronavirusRadioValue === CoronavirusCasesRadioButton.DEATHS) {
-            return this.getPercentageDeaths();
-        }
-    }
 }

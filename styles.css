@@ -20,38 +20,38 @@ h1 {
     background-color: #fff !important;
 }
 
-.data-container {
+.sidebar-container {
     display: flex;
     flex-basis: 20%;
     flex-wrap: wrap;
     align-content: space-between;
 }
 
-.filter {
+.sidebar {
+    line-height: 25px;
     background-color: #fff !important;
     padding: 24px;
     font-size: 1.25rem;
     width: 100%;
 }
 
-.toggle-data-title {
+.data-title {
     font-size: 1.5rem;
 }
 
-.toggle-population-data {
+.toggle-data-radio, .data-label {
     border-top: lightgray 1px solid;
     padding-top: 12px;
     margin-top: 12px;
 }
 
-.toggle-coronavirus-data {
-    border-top: lightgray 1px solid;
-    padding-top: 12px;
-    margin-top: 12px;
+.data-row {
+    display: flex;
+    justify-content: space-between;
 }
 
-.hover-data {
-    line-height: 40px;
+.data-row-label {
+    margin-left: 8px;
 }
 
 .background {
@@ -94,7 +94,7 @@ h1 {
         margin: 0;
     }
 
-    .data-container {
+    .sidebar-container {
         width: 100%;
         display: flex;
         flex-basis: auto;
@@ -102,7 +102,7 @@ h1 {
         flex-wrap: wrap;
     }
 
-    .filter {
+    .sidebar {
         min-width: 250px;
         max-width: 300px;
         margin: 0 0 8px 0;
@@ -110,9 +110,5 @@ h1 {
         background-color: #fff !important;
         padding: 12px;
         font-size: 1.25rem;
-    }
-
-    .hover-data {
-        line-height: 40px;
     }
 }

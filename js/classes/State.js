@@ -75,14 +75,6 @@ class State {
         return this.getCounty(countyID).getPercentageConfirmed();
     }
 
-    getPercentageCoronavirus(coronavirusRadioValue) {
-        if (coronavirusRadioValue === CoronavirusCasesRadioButton.CONFIRMED) {
-            return this.getPercentageConfirmed();
-        } else if (coronavirusRadioValue === CoronavirusCasesRadioButton.DEATHS) {
-            return this.getPercentageDeaths();
-        }
-    }
-
     getPercentageDeaths() {
         return this.getDeaths() / this.getPopulation() * PER_ONE_HUNDRED_THOUSAND;
     }
