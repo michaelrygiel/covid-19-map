@@ -65,13 +65,8 @@ function changeHoverData(name, confirmed, deaths, recovered, population, percent
     $("#hover-deaths").text(deaths.toLocaleString());
     $("#hover-recovered").text(recovered.toLocaleString());
     $("#hover-population").text(parseInt(population).toLocaleString());
-    if (PopulationRadioButton.getValue() === PopulationRadioButton.ACTUAL) {
-        $("#hover-percentage").parent().hide();
-    } else {
-        let percentageLabel = $("#hover-percentage");
-        percentageLabel.text(percentage.toFixed(2));
-        percentageLabel.parent().show();
-    }
+    let percentageLabel = $("#hover-percentage");
+    percentageLabel.text(percentage.toFixed(2));
 }
 
 function updateUpdatedDate(date) {
