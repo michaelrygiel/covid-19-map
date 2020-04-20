@@ -28,7 +28,7 @@ h1 {
 .toggle-data, .hover-data{
     margin: 5px 0 5px 0;
     background-color: #fff !important;
-    padding: 20px;
+    padding: 24px;
     font-size: 1.5rem;
 }
 
@@ -37,7 +37,7 @@ h1 {
 }
 
 .toggle-population-data {
-    padding-bottom: 10px;
+    padding-bottom: 12px;
 }
 
 .background {
@@ -68,10 +68,9 @@ h1 {
 }
 
 .toggle-data-title {
-    text-align: center;
-    width: 100%;
     font-size: 2rem;
     border-bottom: 1px solid lightgray;
+    padding-bottom: 24px;
 }
 
 input[type="radio"][disabled] + label{
@@ -83,7 +82,7 @@ input[type="radio"][disabled] + label{
 /* For screens smaller than 1440px */
 @media only screen and (max-width: 1440px) {
     body {
-        margin: 10px;
+        margin: 12px;
     }
 
     .us-map-visualization {
@@ -98,15 +97,15 @@ input[type="radio"][disabled] + label{
     }
 
     .toggle-data, .hover-data{
-        margin-top: 5px;
+        margin-top: 8px;
         display: inline-block;
         background-color: #fff !important;
-        padding: 20px;
+        padding: 24px;
         font-size: 1.25rem;
     }
 
     .hover-data {
-        margin-left: 10px;
-        line-height: 25px;
+        margin-left: 12px;
+        line-height: 30px;
     }
 }
