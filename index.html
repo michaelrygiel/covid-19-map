@@ -9,48 +9,52 @@
     <h1>United States COVID-19 Outbreak Visualization</h1>
     <main>
         <div class="us-map-container">
-            <div class="filter-container">
-                <div class="toggle-data">
-                    <label class="toggle-data-title">Filters:</label>
-                    <div class="toggle-population-data">
-                        <label>Population Data:</label>
-                        <form>
-                            <input type="radio" id="actual-radio" name="population-radio" onclick="changePopulationData(this);" value="actual-radio" checked>
-                            <label for="actual-radio">Actual</label><br>
-                            <input type="radio" id="percentage-radio" name="population-radio" onclick="changePopulationData(this);" value="percentage-radio">
-                            <label for="percentage-radio">Per 100,000</label><br>
-                        </form>
-                    </div>
-                    <div class="toggle-coronavirus-data">
-                        <label>Coronavirus Data:</label>
-                        <form>
-                            <input type="radio" id="confirmed-radio" name="coronavirus-radio" onclick="changeCoronavirusData(this);" value="confirmed-radio" checked>
-                            <label for="confirmed-radio">Confirmed</label><br>
-                            <input type="radio" id="deaths-radio" name="coronavirus-radio" onclick="changeCoronavirusData(this);" value="deaths-radio">
-                            <label for="deaths-radio">Deaths</label><br>
-                        </form>
+            <div class="data-container">
+                <div class="filter">
+                    <div class="toggle-data">
+                        <label class="toggle-data-title">Filters:</label>
+                        <div class="toggle-population-data">
+                            <label>Population Data:</label>
+                            <form>
+                                <input type="radio" id="actual-radio" name="population-radio" onclick="changePopulationData(this);" value="actual-radio" checked>
+                                <label for="actual-radio">Actual</label><br>
+                                <input type="radio" id="percentage-radio" name="population-radio" onclick="changePopulationData(this);" value="percentage-radio">
+                                <label for="percentage-radio">Per 100,000</label><br>
+                            </form>
+                        </div>
+                        <div class="toggle-coronavirus-data">
+                            <label>Coronavirus Data:</label>
+                            <form>
+                                <input type="radio" id="confirmed-radio" name="coronavirus-radio" onclick="changeCoronavirusData(this);" value="confirmed-radio" checked>
+                                <label for="confirmed-radio">Confirmed</label><br>
+                                <input type="radio" id="deaths-radio" name="coronavirus-radio" onclick="changeCoronavirusData(this);" value="deaths-radio">
+                                <label for="deaths-radio">Deaths</label><br>
+                            </form>
+                        </div>
                     </div>
                 </div>
-                <div class="hover-data">
-                    <div>
-                        <label>In View:</label>
-                        <label id="hover-name"></label>
-                    </div>
-                    <div>
-                        <label>Population:</label>
-                        <label id="hover-population"></label>
-                    </div>
-                    <div>
-                        <label>Per 100,000:</label>
-                        <label id="hover-percentage"></label>
-                    </div>
-                    <div>
-                        <label>Confirmed:</label>
-                        <label id="hover-confirmed"></label>
-                    </div>
-                    <div>
-                        <label>Deaths:</label>
-                        <label id="hover-deaths"></label>
+                <div class="filter">
+                    <div class="hover-data">
+                        <div>
+                            <label>In View:</label>
+                            <label id="hover-name"></label>
+                        </div>
+                        <div>
+                            <label>Population:</label>
+                            <label id="hover-population"></label>
+                        </div>
+                        <div>
+                            <label>Per 100,000:</label>
+                            <label id="hover-percentage"></label>
+                        </div>
+                        <div>
+                            <label>Confirmed:</label>
+                            <label id="hover-confirmed"></label>
+                        </div>
+                        <div>
+                            <label>Deaths:</label>
+                            <label id="hover-deaths"></label>
+                        </div>
                     </div>
                 </div>
             </div>

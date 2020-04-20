@@ -16,18 +16,18 @@ h1 {
 
 .us-map-visualization {
     flex-basis: 79%;
-    margin-left: 8px;
+    margin-left: 16px;
     background-color: #fff !important;
 }
 
-.filter-container {
+.data-container {
     display: flex;
     flex-basis: 20%;
     flex-wrap: wrap;
     align-content: space-between;
 }
 
-.toggle-data, .hover-data {
+.filter {
     background-color: #fff !important;
     padding: 24px;
     font-size: 1.25rem;
@@ -94,7 +94,7 @@ h1 {
         margin: 0;
     }
 
-    .filter-container {
+    .data-container {
         width: 100%;
         display: flex;
         flex-basis: auto;
@@ -102,7 +102,7 @@ h1 {
         flex-wrap: wrap;
     }
 
-    .toggle-data, .hover-data{
+    .filter {
         min-width: 250px;
         max-width: 300px;
         margin: 0 0 8px 0;
