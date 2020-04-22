@@ -147,5 +147,6 @@ class State {
             let path = $("path#"+ this.getCounty(id).getFullID() +".county-boundary");
             path.attr('fill', colorScale(this.getCountyCoronavirus(id, populationRadioValue, coronavirusRadioValue)));
         })
+        updateLegend(colorScale);
     }
 }

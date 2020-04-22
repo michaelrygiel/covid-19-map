@@ -8,7 +8,7 @@
 <body>
     <h1>United States COVID-19 Outbreak Visualization</h1>
     <main>
-        <div class="us-map-container">
+        <div class="main-container">
             <div class="sidebar-container">
                 <div class="sidebar">
                     <div class="toggle-data">
@@ -76,7 +76,10 @@
                     </div>
                 </div>
             </div>
-            <div class="us-map-visualization"></div>
+            <div class="us-map-container">
+                <div class="map"></div>
+                <div class="map-legend"></div>
+            </div>
         </div>
     </main>
     <h4 id="updated-date"></h4>
@@ -85,6 +88,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="js/utils.js"></script>
     <script src="js/generator.js"></script>
+    <script src="js/legend.js"></script>
     <script src="js/classes/classes.js"></script>
     <script src="js/classes/Country.js"></script>
     <script src="js/classes/State.js"></script>

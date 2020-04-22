@@ -9,12 +9,12 @@ h1 {
     padding-left: 20px;
 }
 
-.us-map-container {
+.main-container {
     display: flex;
     flex-wrap: wrap;
 }
 
-.us-map-visualization {
+.us-map-container {
     flex: 1 5 75%;
     margin-left: 16px;
     background-color: #fff !important;
@@ -89,7 +89,7 @@ h1 {
         margin: 12px;
     }
 
-    .us-map-visualization {
+    .us-map-container {
         width: 100%;
         flex-basis: auto;
         margin: 0;
@@ -113,4 +113,21 @@ h1 {
         padding: 12px;
         font-size: 1.25rem;
     }
+}
+
+
+
+
+
+.axis text {
+    font: 10px sans-serif;
+}
+
+.axis line, .axis path {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+}
+svg.legend {
+    padding-left: 50px;
 }
