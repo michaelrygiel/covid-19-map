@@ -149,6 +149,7 @@ class Country {
             let path = $("path#"+ id +".state");
             path.attr('fill', colorScale(this.getStateCoronavirus(id, populationRadioValue, coronavirusRadioValue)));
         });
+        updateLegend(colorScale);
     }
 
     updateCountyColors(stateID, populationRadioValue, coronavirusRadioValue) {

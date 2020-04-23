@@ -4,6 +4,12 @@ const PopulationRadioButton = {
 
     getValue: function () {
         return $("input[name='population-radio']:checked").val();
+    },
+
+    getTitle: function () {
+        let value = this.getValue();
+        if (value === this.ACTUAL) {return "Actual"}
+        if (value === this.PERCENTAGE) {return "Per 100,000"}
     }
 };
 
@@ -14,6 +20,13 @@ const CoronavirusCasesRadioButton = {
 
     getValue: function () {
         return $("input[name='coronavirus-radio']:checked").val();
+    },
+
+    getTitle: function () {
+        let value = this.getValue();
+        if (value === this.CONFIRMED) {return "Confirmed Cases"}
+        if (value === this.DEATHS) {return "Deaths"}
+        if (value === this.RECOVERED) {return "Recovered"}
     }
 };
 

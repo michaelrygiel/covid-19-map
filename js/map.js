@@ -9,13 +9,13 @@ var margin = {
     bottom: 10,
     left: 10,
     right:10
-}, width = parseInt(d3.select('.us-map-visualization').style('width'))
+}, width = parseInt(d3.select('.map').style('width'))
     , width = width - margin.left - margin.right
     , mapRatio = 0.5
     , height = width * mapRatio
     , active = d3.select(null);
 
-var svg = d3.select('.us-map-visualization').append('svg')
+var svg = d3.select('.map').append('svg')
     .attr('class', 'center-container')
     .attr('height', height + margin.top + margin.bottom)
     .attr('width', width + margin.left + margin.right);
