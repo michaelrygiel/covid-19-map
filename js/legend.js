@@ -1,60 +1,19 @@
 function updateLegend(scale) {
-    var w = $(".map-legend").width() * 0.80;
-    var h = 50;
-    console.log(scale);
+    let w = $(".map-legend").width() * 0.80;
+    let h = 50;
     legend({
         color: scale,
-        title: "Legend",
         width: w,
-        height: h
+        height: h,
+        title: CoronavirusCasesRadioButton.getTitle() + ' ' + PopulationRadioButton.getTitle()
     })
 }
 
+function scaleDoesNotExist() {
+    return $(".map-legend-gradient").length === 0;
+}
 
-/*
-Code From:
-https://observablehq.com/@d3/color-legend
- */
-function legend({
-                    color,
-                    title,
-                    tickSize = 6,
-                    width = 320,
-                    height = 44 + tickSize,
-                    marginTop = 18,
-                    marginRight = 0,
-                    marginBottom = 16 + tickSize,
-                    marginLeft = 0,
-                    ticks = width / 64,
-                    tickFormat,
-                    tickValues
-                } = {}) {
-
-    const svg = d3.select(".map-legend").append("svg")
-        .attr("width", width)
-        .attr("height", height)
-        .attr("viewBox", [0, 0, width, height])
-        .style("overflow", "visible")
-        .style("display", "block");
-
-    let tickAdjust = g => g.selectAll(".tick line").attr("y1", marginTop + marginBottom - height);
-    let x;
-
-    // Continuous
-    if (color.interpolate) {
-        const n = Math.min(color.domain().length, color.range().length);
-
-        x = color.copy().rangeRound(d3.quantize(d3.interpolate(marginLeft, width - marginRight), n));
-
-        svg.append("image")
-            .attr("x", marginLeft)
-            .attr("y", marginTop)
-            .attr("width", width - marginLeft - marginRight)
-            .attr("height", height - marginTop - marginBottom)
-            .attr("preserveAspectRatio", "none")
-            .attr("xlink:href", ramp(color.copy().domain(d3.quantize(d3.interpolate(0, 1), n))).toDataURL());
-    }
-
+function createTicks(svg, height, marginBottom, x, ticks, tickFormat, tickSize, tickValues, tickAdjust, marginLeft, marginTop, title) {
     svg.append("g")
         .attr("transform", `translate(0,${height - marginBottom})`)
         .call(d3.axisBottom(x)
@@ -66,27 +25,85 @@ function legend({
         .call(g => g.select(".domain").remove())
         .call(g => g.append("text")
             .attr("x", marginLeft)
-            .attr("y", marginTop + marginBottom - height - 6)
+            .attr("y", marginTop + marginBottom - height - 16)
             .attr("fill", "currentColor")
             .attr("text-anchor", "start")
-            .attr("font-weight", "bold")
+            .attr("font-weight", "regular")
+            .attr("font-size", "1rem")
             .text(title));
-
-    return svg.node();
 }
 
+function createColorGradient(svg, width, height) {
+    var legend = svg.append("defs")
+        .append("svg:linearGradient")
+        .attr("id", "gradient")
+        .attr("x1", "0%")
+        .attr("y1", "100%")
+        .attr("x2", "100%")
+        .attr("y2", "100%")
+        .attr("spreadMethod", "pad");
 
-function ramp(color, n = 256) {
-    var canvas = document.createElement("canvas");
-    canvas.width = width;
-    canvas.height = height;
-    const context = canvas.getContext("2d");
-    for (let i = 0; i < n; ++i) {
-        context.fillStyle = color(i / (n - 1));
-        context.fillRect(i, 0, 1, 1);
+    legend.append("stop")
+        .attr("offset", "0%")
+        .attr("stop-color", "beige")
+        .attr("stop-opacity", 1);
+
+    legend.append("stop")
+        .attr("offset", "100%")
+        .attr("stop-color", "red")
+        .attr("stop-opacity", 1);
+
+    svg.append("rect")
+        .attr("width", width)
+        .attr("height", height - 30)
+        .style("fill", "url(#gradient)")
+        .attr("transform", "translate(0,10)");
+}
+
+/*
+Code From:
+https://observablehq.com/@d3/color-legend
+https://bl.ocks.org/duspviz-mit/9b6dce37101c30ab80d0bf378fe5e583
+ */
+function legend({
+                    color,
+                    title,
+                    tickSize = 6,
+                    width = 320,
+                    height = 44 + tickSize,
+                    marginTop = 18,
+                    marginRight = 0,
+                    marginBottom = 16 + tickSize,
+                    marginLeft = 0,
+                    ticks = width / 96,
+                    tickFormat,
+                    tickValues
+                } = {}) {
+
+    const n = Math.min(color.domain().length, color.range().length);
+    let x = color.copy().rangeRound(d3.quantize(d3.interpolate(marginLeft, width - marginRight), n));
+    let tickAdjust = g => g.selectAll(".tick line").attr("y1", marginTop + marginBottom - height);
+
+    if (scaleDoesNotExist()) {
+        const svg = d3.select(".map-legend").append("svg")
+            .attr("class", "map-legend-gradient")
+            .attr("width", width)
+            .attr("height", height)
+            .attr("viewBox", [0, 0, width, height])
+            .style("overflow", "visible")
+            .style("display", "block");
+
+        createColorGradient(svg, width, height);
+
+        createTicks(svg, height, marginBottom, x, ticks, tickFormat, tickSize, tickValues, tickAdjust, marginLeft, marginTop, title);
     }
-    console.log(canvas);
-    console.log(color);
-    console.log(context);
-    return canvas;
+
+    else {
+        const svg = d3.select(".map-legend").select("svg");
+
+        svg.selectAll("g").remove();
+
+        createTicks(svg, height, marginBottom, x, ticks, tickFormat, tickSize, tickValues, tickAdjust, marginLeft, marginTop, title);
+    }
+
 }
