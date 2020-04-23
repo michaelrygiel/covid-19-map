@@ -21,6 +21,7 @@ h1 {
 }
 
 .map-legend {
+    padding-top: 18px;
     display: flex;
     justify-content: center;
 }
