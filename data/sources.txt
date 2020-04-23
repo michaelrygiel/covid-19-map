@@ -4,3 +4,4 @@ https://www2.census.gov/geo/docs/reference/state.txt
 https://github.com/CSSEGISandData/COVID-19/tree/master/csse_covid_19_data/csse_covid_19_daily_reports
 https://www2.census.gov/programs-surveys/popest/datasets/2010-2019/counties/totals/
 https://cdn.jsdelivr.net/npm/us-atlas@3/counties-10m.json
+https://github.com/marketplace/actions/s3-sync
