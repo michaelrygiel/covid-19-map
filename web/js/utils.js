@@ -73,7 +73,7 @@ function changeHoverData(name, confirmed, deaths, recovered, population, confirm
 }
 
 function updateUpdatedDate(date) {
-    $("#updated-date").text("Updated values as of " + date.toDateString() + " at " + date.toLocaleTimeString());
+    $("#updated-date").text("Updated values as of " + date);
 }
 
 function changePopulationData() {
