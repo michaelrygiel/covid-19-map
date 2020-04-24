@@ -136,9 +136,12 @@ function reset() {
     stateView = true;
     currentStateID = 0;
 
+    changeColors();
+
     g.transition()
         .delay(100)
         .duration(1000)
         .style("stroke-width", "1.5px")
         .attr('transform', 'translate('+margin.left+','+margin.top+')');
+
 }
