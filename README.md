@@ -1,6 +1,6 @@
 # COVID 19 MAP
 
-![Example Image](https://imgur.com/a/W1DajIv)
+![Example Image](https://imgur.com/iY5nRrr)
 
 #### WHAT:
 
