@@ -1,6 +1,6 @@
 # COVID 19 MAP
 
-![Example Image](https://github.com/mrygiel/covid-19-map/blob/master/data/example_2020-04-24.png?raw=true)
+![Example Image](data/example_2020-04-24.png)
 
 #### WHAT:
 
