@@ -2,3 +2,5 @@ etc/thingsToDo.txt
 etc/competition-websites.txt
 .idea/
 .DS_Store
+node_modules/
+package-lock.json

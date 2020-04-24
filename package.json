@@ -1,0 +1,23 @@
+{
+  "name": "scraper",
+  "version": "1.0.0",
+  "description": "Get covid-19 data through github action",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/michaelrygiel/covid-19-map.git"
+  },
+  "license": "MIT",
+  "scripts": {
+    "action": "node action.js"
+  },
+  "author": "mrygiel",
+  "dependencies": {
+    "request": "latest",
+    "fs": "latest",
+    "path": "latest",
+    "promise-request": "latest"
+  },
+  "devDependencies": {
+    "request-promise": "^4.2.5"
+  }
+}
