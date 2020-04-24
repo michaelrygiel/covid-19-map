@@ -10,9 +10,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
-      - uses: nizarmah/auto-minify@v1.5
+      - uses: charlesworth/compress-action@1.0
         with:
-          directory: 'web/js'
+          target-directory: 'web/js'
       - uses: jakejarvis/s3-sync-action@master
         with:
           args: --acl public-read --follow-symlinks --delete --exclude 'data/sources.txt'
