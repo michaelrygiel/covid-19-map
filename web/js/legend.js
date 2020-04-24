@@ -1,10 +1,10 @@
 function updateLegend(scale) {
-    let w = $(".map-legend").width() * 0.80;
-    let h = 50;
+    let width = $(".map-legend").width() * 0.80;
+    let height = 50;
     legend({
         color: scale,
-        width: w,
-        height: h,
+        width: width,
+        height: height,
         title: CoronavirusCasesRadioButton.getTitle() + ' ' + PopulationRadioButton.getTitle()
     })
 }
@@ -13,10 +13,10 @@ function scaleDoesNotExist() {
     return $(".map-legend-gradient").length === 0;
 }
 
-function createTicks(svg, height, marginBottom, x, ticks, tickFormat, tickSize, tickValues, tickAdjust, marginLeft, marginTop, title) {
+function createTicks(svg, height, marginBottom, colorCopy, ticks, tickFormat, tickSize, tickValues, tickAdjust, marginLeft, marginTop, title) {
     svg.append("g")
         .attr("transform", `translate(0,${height - marginBottom})`)
-        .call(d3.axisBottom(x)
+        .call(d3.axisBottom(colorCopy)
             .ticks(ticks, typeof tickFormat === "string" ? tickFormat : undefined)
             .tickFormat(typeof tickFormat === "function" ? tickFormat : undefined)
             .tickSize(tickSize)
@@ -80,8 +80,8 @@ function legend({
                     tickValues
                 } = {}) {
 
-    const n = Math.min(color.domain().length, color.range().length);
-    let x = color.copy().rangeRound(d3.quantize(d3.interpolate(marginLeft, width - marginRight), n));
+    const length = Math.min(color.domain().length, color.range().length);
+    let colorCopy = color.copy().rangeRound(d3.quantize(d3.interpolate(marginLeft, width - marginRight), length));
     let tickAdjust = g => g.selectAll(".tick line").attr("y1", marginTop + marginBottom - height);
 
     if (scaleDoesNotExist()) {
@@ -95,7 +95,7 @@ function legend({
 
         createColorGradient(svg, width, height);
 
-        createTicks(svg, height, marginBottom, x, ticks, tickFormat, tickSize, tickValues, tickAdjust, marginLeft, marginTop, title);
+        createTicks(svg, height, marginBottom, colorCopy, ticks, tickFormat, tickSize, tickValues, tickAdjust, marginLeft, marginTop, title);
     }
 
     else {
@@ -103,7 +103,7 @@ function legend({
 
         svg.selectAll("g").remove();
 
-        createTicks(svg, height, marginBottom, x, ticks, tickFormat, tickSize, tickValues, tickAdjust, marginLeft, marginTop, title);
+        createTicks(svg, height, marginBottom, colorCopy, ticks, tickFormat, tickSize, tickValues, tickAdjust, marginLeft, marginTop, title);
     }
 
 }
