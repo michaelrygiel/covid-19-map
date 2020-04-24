@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
-      - uses: nizarmah/auto-minify
+      - uses: nizarmah/auto-minify@v1.5
         with:
           directory: 'web/js'
       - uses: jakejarvis/s3-sync-action@master
