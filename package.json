@@ -8,14 +8,15 @@
   },
   "license": "MIT",
   "scripts": {
-    "action": "node action.js"
+    "updateData": "node updateData.js"
   },
   "author": "mrygiel",
   "dependencies": {
-    "request": "latest",
     "fs": "latest",
     "path": "latest",
-    "promise-request": "latest"
+    "promise-request": "latest",
+    "request": "latest",
+    "terser-folder": "^2.0.0"
   },
   "devDependencies": {
     "request-promise": "^4.2.5"

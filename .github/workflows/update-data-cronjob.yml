@@ -13,7 +13,7 @@ jobs:
       - name: Build
         run: npm install
       - name: Scrape
-        run: npm run action
+        run: npm run updateData
       - uses: mikeal/publish-to-github-action@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
