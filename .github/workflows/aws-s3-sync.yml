@@ -10,6 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
+      - name: install terser
+        run: npm install terser-folder
       - name: minify
         run: npx terser-folder web/js -e -x .js -o web/js
       - uses: jakejarvis/s3-sync-action@master
