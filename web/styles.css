@@ -89,10 +89,9 @@ h1 {
 }
 
 #updated-date {
-    margin: 16px;
+    margin: 16px 0;
     font-size: 12px;
 }
-
 
 /* For screens smaller than 1440px */
 @media only screen and (max-width: 1440px) {
@@ -125,10 +124,6 @@ h1 {
         font-size: 1.25rem;
     }
 }
-
-
-
-
 
 .axis text {
     font: 10px sans-serif;
