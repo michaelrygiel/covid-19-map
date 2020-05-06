@@ -23,7 +23,7 @@ const CountyPopulationCSVColumns = {
     COUNTY_ID: "COUNTY",
     STATE_ID: "STATE",
     POPULATION: "POPESTIMATE2019"
-}
+};
 
 function generateCountry(promiseData) {
     let usPopulationCSV = promiseData[1],
@@ -46,7 +46,7 @@ function generateStatesForCountry(usPopulationCSV, coronavirusCSV, statesCSV, co
     let states = {};
 
     statesCSV.forEach(state => {
-        let stateID = state[StateCSVColumns.STATE_ID]
+        let stateID = state[StateCSVColumns.STATE_ID];
         let counties = generateCountiesForState(
             stateID,
             countiesCSV,
@@ -69,7 +69,6 @@ function generateStatesForCountry(usPopulationCSV, coronavirusCSV, statesCSV, co
 }
 
 function generateCountiesForState(stateID, countiesCSV, coronavirusCSV, usPopulationCSV) {
-    // ADD usPopulationCSV TO THIS //
     let counties = {};
     let countiesList = countiesCSV.filter(county => county[CountyCSVColumns.STATE_ID] === stateID);
     countiesList.forEach(county => {
