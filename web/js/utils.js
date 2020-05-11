@@ -68,8 +68,8 @@ function changeHoverData(name, confirmed, deaths, recovered, population, confirm
     $("#hover-deaths").text(deaths.toLocaleString());
     $("#hover-recovered").text(recovered.toLocaleString());
     $("#hover-population").text(parseInt(population).toLocaleString());
-    $("#hover-confirmed-percentage").text(confirmedPercentage.toFixed(0));
-    $("#hover-deaths-percentage").text(deathsPercentage.toFixed(0));
+    $("#hover-confirmed-percentage").text(parseInt(confirmedPercentage.toFixed(0)).toLocaleString());
+    $("#hover-deaths-percentage").text(parseInt(deathsPercentage.toFixed(0)).toLocaleString());
 }
 
 function updateUpdatedDate(date) {
