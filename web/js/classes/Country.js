@@ -48,7 +48,7 @@ class Country {
 
     getStateColorScale(populationRadioValue, coronavirusRadioValue) {
         let maxCoronavirusData = this.getMaxCoronavirusAmongStates(populationRadioValue, coronavirusRadioValue);
-        return d3.scaleSqrt().domain([0, maxCoronavirusData]).range(['beige', 'red']);
+        return d3.scaleLinear().domain([0, maxCoronavirusData]).range(['beige', 'red']);
     }
 
     getStateCoronavirus(stateID, populationRadioValue, coronavirusRadioValue) {
@@ -84,11 +84,13 @@ class Country {
     }
 
     getStatePercentageConfirmed(stateID) {
-        return this.getState(stateID).getPercentageConfirmed();
+        let value = this.getState(stateID).getPercentageConfirmed();
+        return isFinite(value) ? value : 0.0;
     }
 
     getStatePercentageDeaths(stateID) {
-        return this.getState(stateID).getPercentageDeaths();
+        let value = this.getState(stateID).getPercentageDeaths();
+        return isFinite(value) ? value : 0.0;
     }
 
     getMaxCoronavirusAmongStates(populationRadioValue, coronavirusRadioValue) {
@@ -147,7 +149,10 @@ class Country {
         let ids = this.getStateIDs();
         ids.forEach(id => {
             let path = $("path#"+ id +".state");
-            path.attr('fill', colorScale(this.getStateCoronavirus(id, populationRadioValue, coronavirusRadioValue)));
+            let value = this.getStateCoronavirus(id, populationRadioValue, coronavirusRadioValue);
+            if (isFinite(value)) {
+                path.attr('fill', colorScale(value));
+            }
         });
         updateLegend(colorScale);
     }

@@ -85,7 +85,7 @@ class State {
 
     getCountyColorScale(populationRadioValue, coronavirusRadioValue) {
         let maxCoronavirus = this.getMaxCoronavirusAmongCounties(populationRadioValue, coronavirusRadioValue);
-        return d3.scaleSqrt().domain([0, maxCoronavirus]).range(['beige', 'red']);
+        return d3.scaleLinear().domain([0, maxCoronavirus]).range(['beige', 'red']);
     }
 
     getMaxCoronavirusAmongCounties(populationRadioValue, coronavirusRadioValue) {
